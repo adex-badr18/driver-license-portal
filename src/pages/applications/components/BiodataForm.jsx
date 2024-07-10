@@ -236,7 +236,7 @@ const BiodataForm = ({
                                 type="file"
                                 name="passportPhoto"
                                 id="passportPhoto"
-                                value={formData.passportPhoto}
+                                // value={formData.passportPhoto}
                                 onChange={(e) =>
                                     handleChange(e, setBiodataForm)
                                 }
@@ -259,7 +259,7 @@ const BiodataForm = ({
                                     type="file"
                                     name="legalReportFile"
                                     id="legalReportFile"
-                                    value={formData.legalReportFile}
+                                    // value={formData.legalReportFile}
                                     onChange={(e) =>
                                         handleChange(e, setBiodataForm)
                                     }
