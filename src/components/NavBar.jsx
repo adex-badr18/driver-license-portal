@@ -75,7 +75,7 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="bg-[#3d4249]">
+        <nav className="bg-[#3d4249] print:hidden">
             <div className="container mx-auto flex justify-center items-center">
                 <div className="hidden md:flex">
                     <Link
