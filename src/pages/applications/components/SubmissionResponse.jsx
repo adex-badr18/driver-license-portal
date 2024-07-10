@@ -1,10 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SubmissionResponse = ({ responseData }) => {
+    const navigate = useNavigate();
+    const [isGenerating, setIsGenerating] = useState(false);
     console.log(responseData);
-    
+
+    const generateSlip = () => {
+        setIsGenerating(true);
+
+        setTimeout(() => {
+            setIsGenerating(false);
+            navigate('/appointment', {state: {responseData,}});
+        }, 3000);
+    }
+
     return (
         <div className="flex flex-col gap-5 p-4">
             <div className="flex justify-center items-center self-center p-1 bg-neutral-100 rounded-full shadow-md h-20 w-20">
@@ -24,15 +35,19 @@ const SubmissionResponse = ({ responseData }) => {
             </div>
 
             <div className="flex flex-col gap-2 mt-1">
-                <Link
-                    to="/appointment"
-                    state={{
-                        responseData,
-                    }}
-                    className="px-4 py-2 text-center bg-custom-green text-white font-medium rounded-lg hover:bg-green-600"
+                <button
+                    className="w-full bg-custom-green hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
+                    onClick={generateSlip}
                 >
-                    Generate Appointment Slip
-                </Link>
+                    {isGenerating ? (
+                        <div className="flex justify-center gap-4">
+                            <div className="w-6 h-6 rounded-full animate-spin border-y-4 border-solid border-white border-t-transparent shadow-md"></div>
+                            <span>Generating Slip...</span>
+                        </div>
+                    ) : (
+                        "Generate Appointment Slip"
+                    )}
+                </button>
             </div>
         </div>
     );
