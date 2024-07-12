@@ -53,7 +53,7 @@ const ApplicationHome = () => {
                         buttonText="Start Application"
                         linkTo="/application/form"
                         state={{type}}
-                        classAttr="self-start"
+                        classAttr="self-start py-3 px-8 rounded-full bg-custom-green text-white text-center hover:bg-green-600"
                     />
                 </div>
 

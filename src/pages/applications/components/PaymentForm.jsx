@@ -35,7 +35,7 @@ const PaymentForm = ({
 
         setIsSubmitting(true);
         setErrorMessage("");
-        
+
         if (!hasNoEmptyValue(formData)) {
             setErrorMessage("All fields are required.");
             return;
@@ -52,7 +52,6 @@ const PaymentForm = ({
             // setIsPaid(true);
             // setStep(step + 1);
         }, 3000);
-
     };
 
     const goBack = (e) => {
@@ -83,7 +82,7 @@ const PaymentForm = ({
                 className=" bg-custom-green hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
                 onClick={() => setStep(step + 1)}
             >
-               Review Your Information
+                Review Your Information
             </button>
         </div>
     ) : (
@@ -260,7 +259,11 @@ const PaymentForm = ({
 
             {/* Payment Success Modal */}
             <CustomModal isOpen={isModalOpen}>
-                <PaymentSuccess step={step} setStep={setStep} setIsPaid={setIsPaid} />
+                <PaymentSuccess
+                    step={step}
+                    setStep={setStep}
+                    setIsPaid={setIsPaid}
+                />
             </CustomModal>
         </div>
     );

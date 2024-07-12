@@ -9,12 +9,12 @@ export const Accordion = ({ faq }) => {
         <button
           onClick={() => setShow((prevShow) => !prevShow)}
           type="button"
-          className="text-lg flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 bg-[#22CDA7]"
+          className="text-lg flex items-center justify-between w-full p-4 font-medium text-left text-green-800 border-b border-gray-200 dark:border-gray-700 dark:text-green-800 bg-green-50"
           data-accordion-target="#accordion-flush-body-1"
           aria-expanded="true"
           aria-controls="accordion-flush-body-1"
         >
-          <span className="text-xl text-white dark:text-white">{question}</span>
+          <span className="text-xl text-green-800 dark:text-green-800">{question}</span>
           {!show && (
             <svg
               data-accordion-icon

@@ -1,17 +1,21 @@
 import {
-    Routes,
-    Route,
     createBrowserRouter,
-    RouterProvider,
+    RouterProvider
 } from "react-router-dom";
+import AuthLayout from "../components/AuthLayout";
 import Root from "../components/Root";
-import HomePage from "../pages/home/HomePage";
-import Support from "../pages/support/Support";
-import Faq from "../pages/faq/Faq";
-import Contact from "../pages/contact/Contact";
-import ApplicationHome from "../pages/applications/ApplicationHome";
 import ApplicationForm from "../pages/applications/ApplicationForm";
+import ApplicationHome from "../pages/applications/ApplicationHome";
 import Appointment from "../pages/appointment/Appointment";
+import LoginPage from "../pages/auth/login/LoginPage";
+import SignupPage from "../pages/auth/signup/SignupPage";
+import Contact from "../pages/contact/Contact";
+import Faq from "../pages/faq/Faq";
+import HomePage from "../pages/home/HomePage";
+import Profile from "../pages/profile/Profile";
+import Support from "../pages/support/Support";
+import Verify from "../pages/verification/Verify";
+
 
 const router = createBrowserRouter([
     {
@@ -21,18 +25,6 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomePage />,
-            },
-            {
-                path: "application",
-                element: <ApplicationHome />,
-            },
-            {
-                path: "application/form",
-                element: <ApplicationForm />,
-            },
-            {
-                path: "appointment",
-                element: <Appointment />,
             },
             {
                 path: "faq",
@@ -45,6 +37,55 @@ const router = createBrowserRouter([
             {
                 path: "contact",
                 element: <Contact />,
+            },
+            {
+                path: "login",
+                element: <LoginPage />,
+            },
+            {
+                path: "signup",
+                element: <SignupPage />,
+            },
+            {
+                path: "verify-license",
+                element: <Verify />
+            },
+            {
+                path: "capture-centers",
+                element: <div>Capture Centers Page</div>,
+            },
+            {
+                path: "driving-schools",
+                element: <div>Driving Schools Page</div>,
+            },
+            {
+                path: "get-appointment-slip",
+                element: <div>Get Appointment Slip Page</div>,
+            },
+            {
+                element: <AuthLayout />,
+                children: [
+                    {
+                        path: "dashboard",
+                        element: <div>User Dashboard</div>,
+                    },
+                    {
+                        path: "profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "application",
+                        element: <ApplicationHome />,
+                    },
+                    {
+                        path: "application/form",
+                        element: <ApplicationForm />,
+                    },
+                    {
+                        path: "appointment",
+                        element: <Appointment />,
+                    },
+                ]
             },
         ],
     },

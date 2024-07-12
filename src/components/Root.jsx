@@ -6,20 +6,20 @@ import NavBar from './NavBar'
 import Spinner from './Spinner'
 
 const Root = () => {
-    const {state} = useNavigation();
+  const { state } = useNavigation();
 
   return (
     <div className=''>
-        <Header />
-        <NavBar />
+      <Header />
+      <NavBar />
 
-        <main className='min-h-screen'>
-            {
-                state === 'loading' ? <Spinner /> : <Outlet />
-            }
-        </main>
+      <main className=''>
+        {
+          state === 'loading' ? <Spinner /> : <Outlet />
+        }
+      </main>
 
-        <Footer />
+      <Footer />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,9 +12,9 @@ const SubmissionResponse = ({ responseData }) => {
 
         setTimeout(() => {
             setIsGenerating(false);
-            navigate('/appointment', {state: {responseData,}});
+            navigate("/appointment", { state: { responseData } });
         }, 3000);
-    }
+    };
 
     return (
         <div className="flex flex-col gap-5 p-4">

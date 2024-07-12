@@ -162,11 +162,13 @@ const ContactForm = ({
                             >
                                 <option value="">--Select LGA--</option>
                                 {formData.state &&
-                                    NaijaStates.lgas(formData.state).lgas.map((lga, index) => (
-                                        <option key={index} value={lga}>
-                                            {lga}
-                                        </option>
-                                    ))}
+                                    NaijaStates.lgas(formData.state).lgas.map(
+                                        (lga, index) => (
+                                            <option key={index} value={lga}>
+                                                {lga}
+                                            </option>
+                                        )
+                                    )}
                             </select>
                         </div>
                     </div>

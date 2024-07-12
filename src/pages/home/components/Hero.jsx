@@ -19,22 +19,21 @@ export const Hero = () => {
   }, [index]);
   // bg-[url("src/assets/images/img7.jpg")]
   return (
-    <section className="flex flex-1 bg-white flex-row h-screen">
-      <aside className='flex bg-bottom bg-white backdrop-opacity-25 pl-32 justify-center flex-1 flex-col'>
-        <span className="text-black w-3/5 text-[32px]/[38.4px] w-3/4 font-normal text-wrap text-left">
-          <h3 className="text-[44px]/[51.1px] font-semibold text-pretty mb-4">
+    <section className="flex flex-1 bg-white w-full h-screen">
+      <aside className='flex bg-white p-9 md:pl-16 lg:pl-28 bg-bottom justify-center items-center md:items-start flex-1 flex-col md:bg-none bg-[url("src/assets/images/img7.jpg")]'>
+        <span className="text-black w-full md:w-3/4 md:text-xl lg:text-[32px]/[38.4px] font-normal text-wrap text-lg text-center md:text-left">
+          <h3 className="md:text-3xl lg:text-[64px]/[81.1px] text-2xl font-semibold text-pretty mb-9">
              Driver's lincense Application
           </h3>
           Get your Driver license done anywhere in the world <em className="text-[#22C55E] ">in an instant</em>
         </span>
-        <div className="flex items-center gap-7">
+        <div className="flex mt-8 items-center gap-7">
+        <button className=" bg-[#22C55E] text-[18px]/[19.2px] text-white px-8 py-4 font-medium rounded-full min-w-36">Get Started</button>
 
-        <button className=" mt-4 bg-[#22C55E] text-[18px]/[19.2px] text-white px-8 py-6 font-medium rounded-full w-fit">Get Started</button>
-        {/* <button className=" mt-4 text-[#22C55E] border border-[#22C55E] text-[18px]/[19.2px] bg-white px-8 py-6 font-medium rounded-full w-fit"> Application</button> */}
         </div>
 
       </aside>
-      <aside className="flex-1 h-full">
+      <aside className=" hidden md:flex md:flex-1 md:h-full ">
           <img src={imgArray[index]} className='object-cover w-full h-full' alt="image" />
       </aside>
 

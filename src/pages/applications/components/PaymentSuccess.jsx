@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+
+import { useState } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-import { Link } from "react-router-dom";
+
 
 const PaymentSuccess = ({ step, setStep, setIsPaid }) => {
     const [isProcessing, setIsProcessing] = useState(false);
