@@ -3,13 +3,25 @@ import coatofarm from "../assets/coatOfArm.png"
 // import arrowRight from "../assets/arrowRight.svg"
 // import search from "../assets/search.svg"
 import { Link } from "react-router-dom"
+import useAuth from "../hooks/useAuth"
 
 const Header = () => {
 
+    const { auth } = useAuth()
+
+
     return (
         <header className="px-4 py-3 hidden md:px-20 md:flex   md:flex-row justify-between Md:pt-6 md:pb-4 border-b">
-            <div className="grid place-content-center">
-                <img src={logo} alt="" />
+            <div className="flex items-center">
+                <div className="pr-3">
+                    <img className="h-20" src={coatofarm} alt="" />
+                </div>
+
+
+                <div className="border-l pl-3 grid place-content-center border-green-700">
+                    <img src={logo} alt="" />
+                </div>
+
             </div>
 
             {/* <div className="flex items-center">
@@ -33,22 +45,30 @@ const Header = () => {
             <div className="flex gap-6">
                 <div className="flex gap-4 items-center">
 
+                    {
+                        !auth.user ? <>
+                            <Link to="/login">
+                                <button className="bg-custom-green py-3 w-28 rounded-2xl text-white">
+                                    Login
+                                </button>
+                            </Link>
 
-                    <Link to="/login">
-                        <button className="bg-custom-green py-3 w-28 rounded-2xl text-white">
-                            Login
-                        </button>
-                    </Link>
+                            <Link to="/signup">
+                                <button className="border-custom-green border py-3 w-28  rounded-2xl font-semibold text-custom-green">
+                                    Sign up
+                                </button>
+                            </Link>
+                        </> : <>
+                            <div className="border p-1 rounded-full h-16">
+                                <img className="h-full rounded-full" src={auth.user.image} alt="" />
+                            </div>
 
-                    <Link to="/signup">
-                        <button className="border-custom-green border py-3 w-28  rounded-2xl font-semibold text-custom-green">
-                            Sign up
-                        </button>
-                    </Link>
+                        </>
+                    }
+
 
 
                 </div >
-                <img className="h-20" src={coatofarm} alt="" />
             </div >
 
         </header >

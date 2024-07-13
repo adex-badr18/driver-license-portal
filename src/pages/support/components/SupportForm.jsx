@@ -3,10 +3,10 @@
 const SupportForm = ({ BtnFunction }) => {
 
 
-    const inputStyle = "w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+    const inputStyle = "w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 
     return (
-        <div className="md:mt-8 mt-4 border-t pt-4 md:pt-10">
+        <div className="md:mt-8 mt-4 pt-4 md:pt-10">
             <div className="grid md:grid-cols-2 text-sm gap-x-16 gap-y-6">
 
                 <div >

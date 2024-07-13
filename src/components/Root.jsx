@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Outlet, useNavigation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
@@ -9,9 +9,12 @@ const Root = () => {
   const { state } = useNavigation();
 
   return (
-    <div className=''>
-      <Header />
-      <NavBar />
+    <div className='grid grid-rows-[auto_1fr_auto] min-h-screen'>
+      <header className=''>
+        <Header />
+        <NavBar />
+      </header>
+
 
       <main className=''>
         {

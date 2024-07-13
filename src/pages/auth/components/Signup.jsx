@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { signupFields } from '../constants/FormFields';
-
+import { Link } from "react-router-dom";
 import FormAction from './FormAction';
 import Input from './Input';
 
@@ -9,7 +9,7 @@ let fieldsState = {};
 
 fields.forEach((field) => (fieldsState[field.id] = ''));
 
-export default function Signup() {
+export default function Signup({ paragraph, linkUrl, linkName }) {
   const [signupState, setSignupState] = useState(fieldsState);
 
   const handleChange = (e) =>
@@ -22,10 +22,10 @@ export default function Signup() {
   };
 
   //handle Signup API Integration here
-  const createAccount = () => {};
+  const createAccount = () => { };
 
   return (
-    <form className="space-y-6 p-9" onSubmit={handleSubmit}>
+    <form className="space-y-6 p-6" onSubmit={handleSubmit}>
       <div className="">
         {fields.map((field) => (
           <Input
@@ -42,7 +42,17 @@ export default function Signup() {
           />
         ))}
         <FormAction handleSubmit={handleSubmit} text="Signup" />
+
       </div>
+      <p className="mt-2 text-center text-sm text-gray-600">
+        {paragraph}{' '}
+        <Link
+          to={linkUrl}
+          className="font-medium text-custom-green hover:text-green-800"
+        >
+          {linkName}
+        </Link>
+      </p>
     </form>
   );
 }

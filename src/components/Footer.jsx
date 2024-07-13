@@ -6,18 +6,14 @@ import twitter from "../assets/twitter.svg";
 import logo from "../assets/images/dannon-logo2.png"
 import youtube from "../assets/youtube.svg";
 import angleright from "../assets/angle-right.svg";
-import Logo from "./utils/Logo";
+
 
 const Footer = () => {
-    const logoStyle = {
-        container: "logo grid content-start text-center md:w-1/4 justify-start",
-        h1: "text-green-500 text-6xl font-extrabold",
-        p: "text-gray-50 text-[10px]",
-    };
+
 
     return (
         <footer className="print:hidden">
-            <div className="flex md:flex-row flex-col gap-10 justify-between px-4 py-8 md:px-20 md:pt-16 md:pb-12 mt-10 bg-black">
+            <div className="flex lg:flex-row flex-col gap-10 justify-between px-4 py-8 md:px-20 md:pt-16 md:pb-12 bg-black">
 
                 <div className="grid place-content-start">
                     <img src={logo} alt="" />
@@ -95,7 +91,7 @@ const Footer = () => {
 
                 <div>
                     <p className="mb-4 font-bold text-green-500">Follow Us:</p>
-                    <ul className="flex gap-4">
+                    <ul className="flex items-center gap-4">
                         <li>
                             <img className="w-8" src={facebook} alt="" />
                         </li>

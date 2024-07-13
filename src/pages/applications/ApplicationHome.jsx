@@ -16,19 +16,19 @@ const ApplicationHome = () => {
         type === "new"
             ? newApplicationProcedure
             : type === "renewal"
-            ? renewalProcedure
-            : reissueProcedure;
+                ? renewalProcedure
+                : reissueProcedure;
     console.log(state);
 
     return (
-        <div className="flex flex-col gap-4 md:gap-6">
+        <div className="flex pb-20 flex-col gap-4 md:gap-6">
             <div className="flex flex-col md:flex-row gap-4 md:justify-between items-center px-6 md:px-10 py-4 md:py-6">
                 <h1 className="text-custom-green md:leading-snug text-center md:text-start font-black text-3xl sm:text-4xl md:text-6xl">
                     {type === "new"
                         ? "New Driver's License Application"
                         : type === "renewal"
-                        ? "Online Driver's License Renewal"
-                        : "Driver's License Replacement/Re-Issue"}
+                            ? "Online Driver's License Renewal"
+                            : "Driver's License Replacement/Re-Issue"}
                 </h1>
 
                 <img
@@ -52,7 +52,7 @@ const ApplicationHome = () => {
                     <LinkButton
                         buttonText="Start Application"
                         linkTo="/application/form"
-                        state={{type}}
+                        state={{ type }}
                         classAttr="self-start py-3 px-8 rounded-full bg-custom-green text-white text-center hover:bg-green-600"
                     />
                 </div>

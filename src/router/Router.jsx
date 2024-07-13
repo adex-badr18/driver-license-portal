@@ -15,6 +15,8 @@ import HomePage from "../pages/home/HomePage";
 import Profile from "../pages/profile/Profile";
 import Support from "../pages/support/Support";
 import Verify from "../pages/verification/Verify";
+import Dashboard from "../pages/dashboard/Dashboard"
+
 
 
 const router = createBrowserRouter([
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
                 index: true,
                 element: <HomePage />,
             },
+
             {
                 path: "faq",
                 element: <Faq />,
@@ -67,7 +70,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "dashboard",
-                        element: <div>User Dashboard</div>,
+                        element: <Dashboard />,
                     },
                     {
                         path: "profile",
@@ -87,6 +90,8 @@ const router = createBrowserRouter([
                     },
                 ]
             },
+
+
         ],
     },
 ]);

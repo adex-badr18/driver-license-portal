@@ -3,6 +3,7 @@
 import NaijaStates from "naija-state-local-government";
 import React, { useEffect, useState } from 'react';
 import Gender from "../../utils/Gender";
+import Input from "../../utils/Input";
 import Select from "../../utils/Select";
 
 
@@ -111,25 +112,27 @@ const BasicDetailsForm = (props) => {
                     onChange={props.editDob}
                     required={true}
                      />
-                     <label className='relative w-full p-4 border-4 border-custom-grey bg-slate-50 rounded-lg' onClick={handleChangeDropdown}>
+                     <label className='relative grid gap-2 w-full mb-6' onClick={handleChangeDropdown}>
+                        <span className='text-base md:text-[20px]/[22px] font-medium text-green-700 dark:text-green-500'>State</span>
                         {stateDropdown ?
                         <Select closeModal={handleChangeDropdown} value="state"/>:
-                        <button type="button" className="w-full h-full">{props.formData.State ? props.formData.State :"Select a state"}</button>
+                        <button type="button" className="w-full h-full py-2 px-5  border-2 border-custom-grey bg-slate-50 rounded-lg">{props.formData.StateofAddress ? props.formData.StateofAddress :"Select a state"}</button>
 
                         }
                      </label>
-                     <label className='relative w-full p-4 border-4 border-custom-grey bg-slate-50 rounded-lg' onClick={handleLgaChangeDropdown}>
-                        {lgaDropdown && props.formData.State && stateDropdown == false?
-                        <Select closeModal={handleLgaChangeDropdown} value={props.formData.State}/>:
-                        <button type="button" className="w-full h-full">{props.formData.lga ? props.formData.lga : props.formData.State ? "Select your LGA" : "Select a state"}</button>
+                     <label className='relative grid gap-2 w-full mb-6' onClick={handleLgaChangeDropdown}>
+                        <span className='text-base md:text-[20px]/[22px] font-medium text-green-700 dark:text-green-500'>L.G.A</span>                       
+                        {lgaDropdown && props.formData.StateofAddress && stateDropdown == false?
+                        <Select closeModal={handleLgaChangeDropdown} value={props.formData.StateofAddress}/>:
+                        <button type="button" className="w-full h-full py-2 px-5  border-2 border-custom-grey bg-slate-50 rounded-lg">{props.formData.lga ? props.formData.lga : props.formData.State ? "Select your LGA" : "Select a state"}</button>
 
                         }
 
                      </label>
                     </div>
-                     <div className=" bg-white sticky bottom-[-24px] flex items-center gap-5 justify-end mt-4">
-                        <button type='button' onClick={props.closeModal} className='px-8 py-4 rounded-lg text-base bg-rose-600 text-white'>Cancel</button>
-                        <button type='submit' className='px-8 py-4 rounded-lg text-base text-white bg-[#22C55E] w-fit'>Saves Changes</button>
+                     <div className=" bg-white sticky bottom-[-24px] flex items-center gap-5 justify-end py-4">
+                        <button type='button' onClick={props.closeModal} className='px-3 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-base bg-rose-600 text-white'>Cancel</button>
+                        <button type='submit' className='px-3 py-3 md:px-8 md:py-4 rounded-lg text-xs md:text-base text-white bg-[#22C55E] w-fit'>Saves Changes</button>
                      </div>
 
             </form>

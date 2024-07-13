@@ -1,15 +1,17 @@
 import React from 'react'
-
+import camera from "../../../assets/images/camera.png"
 const ProfilePicture = (props) => {
-  console.log(props.state.image)
     return (
         <div className='flex md:flex-row flex-col items-center md:items-end mt-8 md:mt-16 gap-6 md:gap-10'>
               <div className=" flex shrink-0">
-              <img className="h-60 w-60 object-cover border-2 border-custom-grey rounded-full" src={props.state.image} alt="Current profile photo" />
             </div>
-            <label className="block">
-              <span className="sr-only">Choose profile photo</span>
-              <input type="file" accept='image/' className="block w-full text-sm text-slate-500
+            <label className="block overflow-hidden relative ">
+              <img className="h-60 w-60 object-cover border-2 border-custom-grey rounded-full hover:opacity-50" src={props.state.image} alt="Current profile photo" />
+              <div className=" rounded-full cursor-pointer bg-[#00000040] absolute top-0 right-0 left-0 bottom-0 flex flex-col items-center justify-center opacity-0 hover:opacity-100">
+                <img className="w-12 h-12 object-fit" src={camera} alt="img"/>
+                <span className="text-[12px]/[14px] w-6/12 text-center text-white">CHANGE PIC</span>
+              </div>
+              <input type="file" accept='image/' className="hidden w-full text-sm text-slate-500
                 file:mr-2 md:file:mr-4 file:py-4 file:px-6
                 file:rounded-full file:border-0
                 file:text-base file:font-semibold
