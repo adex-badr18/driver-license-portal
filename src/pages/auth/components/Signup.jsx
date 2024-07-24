@@ -39,84 +39,94 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
 
     //handle Signup API Integration here
     const createAccount = async () => {
-        const { username, email, password } = signupState;
+        const { username, email, password, confirm_password } = signupState;
         const data = {
             username,
             email,
             password,
+            confirm_password,
         };
 
-        try {
-            const res = await axios.post("http://localhost:3000/users", data);
+        // try {
+        //     const res = await axios.post("http://localhost:3000/users", data);
 
-            if (res.status === 201) {
-                // console.log(res.data);
-                const user = res.data;
+        //     if (res.status === 201) {
+        //         // console.log(res.data);
+        //         const user = res.data;
 
-                const reqBody = {
-                    id: user.id,
-                    userId: user.id,
-                    first_name: "",
-                    last_name: "",
-                    middle_name: "",
-                    gender: "",
-                    date_of_birth: "",
-                    nin: "",
-                    street_address: "",
-                    state_of_residence: "",
-                    local_govt_area: "",
-                    mothers_maiden_name: "",
-                    phone_number: "",
-                    passport_photo: "",
-                };
-                const createProfile = await axios.post(
-                    "http://localhost:3000/profiles",
-                    reqBody
-                );
+        //         const reqBody = {
+        //             id: user.id,
+        //             userId: user.id,
+        //             first_name: "",
+        //             last_name: "",
+        //             middle_name: "",
+        //             gender: "",
+        //             date_of_birth: "",
+        //             nin: "",
+        //             street_address: "",
+        //             state_of_residence: "",
+        //             local_govt_area: "",
+        //             mothers_maiden_name: "",
+        //             phone_number: "",
+        //             passport_photo: "",
+        //         };
+        //         const createProfile = await axios.post(
+        //             "http://localhost:3000/profiles",
+        //             reqBody
+        //         );
 
-                if (createProfile.status === 201) {
-                    // console.log(createProfile.data);
-                    const profile = createProfile.data;
+        //         if (createProfile.status === 201) {
+        //             // console.log(createProfile.data);
+        //             const profile = createProfile.data;
 
-                    const licenseData = {
-                        id: profile.userId,
-                        userId: profile.userId,
-                        license_id: "",
-                        vehicle_type: "",
-                        license_class: "",
-                        date_of_issue: "",
-                        date_of_expiry: "",
-                        country_of_issue: "",
-                    };
+        //             const licenseData = {
+        //                 id: profile.userId,
+        //                 userId: profile.userId,
+        //                 license_id: "",
+        //                 vehicle_type: "",
+        //                 license_class: "",
+        //                 date_of_issue: "",
+        //                 date_of_expiry: "",
+        //                 country_of_issue: "",
+        //             };
 
-                    const licenseRes = await axios.post(
-                        "http://localhost:3000/licenses",
-                        licenseData
-                    );
+        //             const licenseRes = await axios.post(
+        //                 "http://localhost:3000/licenses",
+        //                 licenseData
+        //             );
 
-                    if (licenseRes.status === 201) {
-                        setSubmitting(false);
-                        setIsModalOpen(true);
-                        clearForm();
-                    }
+        //             if (licenseRes.status === 201) {
+        //                 setSubmitting(false);
+        //                 setIsModalOpen(true);
+        //                 clearForm();
+        //             }
 
-                } else {
-                    console.log(createProfile);
-                }
+        //         } else {
+        //             console.log(createProfile);
+        //         }
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
+        const res = await axios.post(
+            "https://saviorte.pythonanywhere.com/api/signup/",
+            data,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
             }
-        } catch (error) {
-            console.log(error);
-        }
-        // const res = await fetch("https://saviorte.pythonanywhere.com/api/signup/", {
-        //   body: JSON.stringify(data),
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   }
-        // })
+        );
 
-        // console.log(res);
-        // console.log(res.data);
+        if (res.status === 201) {
+            setSubmitting(false);
+            setIsModalOpen(true);
+            clearForm();
+        }
+
+        console.log(res);
+        console.log(res.data);
     };
 
     return (
