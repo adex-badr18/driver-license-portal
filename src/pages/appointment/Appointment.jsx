@@ -163,11 +163,14 @@ const Appointment = () => {
                         Capture Center:
                     </label>
                     <p className="font-bold text-grey" id="capture-center">
-                        {applicationType === "new"
+                        {
+                            `FRSC Capture Center, ${contactData.lga}, ${contactData.state}.`
+                        }
+                        {/* {applicationType === "new"
                             ? "Beside FO filling station, Unilag Premise, Lagos Mainland, Lagos."
                             : applicationType === "renewal"
                             ? "16, Obafemi Awolowo Way, Oke-Ilewo, Abeokuta."
-                            : "Cultural Center, Oke-Fia, Osogbo."}
+                            : "Cultural Center, Oke-Fia, Osogbo."} */}
                     </p>
                 </div>
 
