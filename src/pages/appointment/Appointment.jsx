@@ -35,7 +35,7 @@ const Appointment = () => {
             </h1>
 
             {applicationType === "new" && (
-                <div className="flex flex-col gap-4 w-full md:w-[576px] border p-6">
+                <div className="flex flex-col gap-4 w-full md:w-[600px] border p-6">
                     <h3 className="text-xl font-semibold pb-2 border-b">
                         Personal Information
                     </h3>
@@ -126,7 +126,7 @@ const Appointment = () => {
                 </div>
             )}
 
-            <div className="flex flex-col gap-4 w-full md:w-[576px] border p-6">
+            <div className="flex flex-col gap-4 w-full md:w-[600px] border p-6">
                 <h3 className="text-xl font-semibold pb-2 border-b">
                     Appointment Information
                 </h3>
