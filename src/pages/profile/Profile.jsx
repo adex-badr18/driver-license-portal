@@ -14,12 +14,13 @@ export const loader = async ({ request }) => {
     await requireAuth(request);
 
     const auth = JSON.parse(sessionStorage.getItem("auth"));
-    const userId = auth.user.id;
+    // const userId = auth.user.id;
 
-    const profile = getProfile(userId);
-    const license = getLicense(userId);
+    const profile = getProfile();
+    // const license = getLicense(userId);
 
-    return [profile, license];
+    // return [profile, license];
+    return profile;
 
     // const user = JSON.parse(sessionStorage.getItem("auth"));
     // const { access } = user;
@@ -48,7 +49,8 @@ const Profile = () => {
     let { state } = useLocation();
     const {auth} = useAuth();
     const {user} = auth;
-    const [profile, license] = useLoaderData();
+    const profile = useLoaderData();
+    // const [profile, license] = useLoaderData();
     const [profileDetails, setProfile] = useState({
         username: user.username,
         password: user.password,
@@ -62,14 +64,16 @@ const Profile = () => {
         lga: profile.local_govt_area,
         address: profile.street_address,
         gender: profile.gender,
-        licenseId: license.license_id,
-        certificateNumber: "Ikj384AD34",
+        licenseId: "--",
+        certificateNumber: "--",
         nin: profile.nin,
         joined: "21-12-3034",
-        lastRenewal: license.date_of_issue,
-        nextRenewal: license.date_of_expiry,
+        lastRenewal: "--",
+        nextRenewal: "--",
         image: "src/assets/images/close-up-friends-traveling-by-car.jpg",
     });
+
+    console.log(profile);
 
     // console.log({ profileDetails });
 

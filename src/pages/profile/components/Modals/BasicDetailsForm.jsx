@@ -73,13 +73,15 @@ const BasicDetailsForm = (props) => {
             middle_name: middlename,
             gender: gender,
             date_of_birth: dob,
+            email: email,
             street_address: address,
             state_of_residence: StateofAddress,
             local_govt_area: local_govt_area,
             phone_number: phone,
         };
-        const updatedProfile = await updateUserProfile(userId, data);
+        const updatedProfile = await updateUserProfile(data);
 
+        console.log(updatedProfile);
         props.closeModal();
         setIsOpen(true);
     };

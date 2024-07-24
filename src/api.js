@@ -1,3 +1,4 @@
+import useAuth from "./hooks/useAuth";
 import { getTomorrowsDate } from "./pages/appointment/utils";
 import axios from "axios";
 
@@ -27,24 +28,40 @@ export const getAppointment = async (id) => {
     // };
 };
 
-export const getProfile = async (userId) => {
-    try {
-        const res = await axios.get(
-            `http://localhost:3000/profiles?userId=${userId}`
-        );
+export const getProfile = async () => {
+    const auth = JSON.parse(sessionStorage.getItem("auth"));
 
-        return res.data[0];
+    try {
+        // const res = await axios.get(
+        //     `http://localhost:3000/profiles?userId=${userId}`
+        // );
+
+        const res = await axios.get("https://saviorte.pythonanywhere.com/api/profile/", {
+            headers: {
+                Authorization: `Bearer ${auth.access}`
+            }
+        });
+
+        return res.data;
     } catch (error) {
         return error;
     }
 };
 
-export const updateUserProfile = async (userId, data) => {
+export const updateUserProfile = async (data) => {
+    const auth = JSON.parse(sessionStorage.getItem("auth"));
+
     try {
-        const res = await axios.put(
-            `http://localhost:3000/profiles?id=${userId}`,
-            data
-        );
+        // const res = await axios.put(
+        //     `http://localhost:3000/profiles?id=${userId}`,
+        //     data
+        // );
+
+        const res = await axios.put("https://saviorte.pythonanywhere.com/api/profile/", data, {
+            headers: {
+                Authorization: `Bearer ${auth.access}`
+            }
+        });
 
         return res.data;
     } catch (error) {
