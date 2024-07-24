@@ -153,7 +153,7 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
                     onSubmit={handleSubmit}
                 >
                     {submitting ? (
-                        <div className="flex justify-center gap-4">
+                        <div className="flex justify-center items-center gap-4">
                             <div className="w-6 h-6 rounded-full animate-spin border-y-4 border-solid border-white border-t-transparent shadow-md"></div>
                             <span>Creating...</span>
                         </div>

@@ -43,20 +43,31 @@ export default function Login({ paragraph, linkUrl, linkName }) {
     const authenticateUser = async () => {
         const email = loginState["email-address"];
         const password = loginState["password"];
-        // new-snippet
-        const res = await axios.get(
-            `http://localhost:3000/users?email=${email}&password=${password}`,
-        );
+
+        const res = await axios.post("https://saviorte.pythonanywhere.com/api/login/", {email, password});
 
         if (res.status === 200) {
-            const auth = { user: res.data[0] };
+            const auth = res.data;
             setAuth(auth);
             sessionStorage.setItem("auth", JSON.stringify(auth));
-            const profile = await getProfile(auth.user.id);
-            sessionStorage.setItem("profile", JSON.stringify(profile));
             setSubmitting(false);
             navigate('/dashboard');
         }
+
+        // new-snippet
+        // const res = await axios.get(
+        //     `http://localhost:3000/users?email=${email}&password=${password}`,
+        // );
+
+        // if (res.status === 200) {
+        //     const auth = { user: res.data[0] };
+        //     setAuth(auth);
+        //     sessionStorage.setItem("auth", JSON.stringify(auth));
+        //     const profile = await getProfile(auth.user.id);
+        //     sessionStorage.setItem("profile", JSON.stringify(profile));
+        //     setSubmitting(false);
+        //     navigate('/dashboard');
+        // }
         // console.log(res.status);
         // if (res.status === 200) {
         //   const token = res.data.token;
