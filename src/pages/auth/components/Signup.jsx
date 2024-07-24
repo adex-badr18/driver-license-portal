@@ -112,11 +112,11 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
         const res = await axios.post(
             "https://saviorte.pythonanywhere.com/api/signup/",
             data,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
+            // {
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            // }
         );
 
         if (res.status === 201) {
