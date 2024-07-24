@@ -11,6 +11,7 @@ const BiodataForm = ({
     setIsSubmitted,
     applicationType,
 }) => {
+    window.scrollTo(0, 200);
     const [errorMessage, setErrorMessage] = useState("");
     const isInvalid = hasEmptyValue(formData);
 

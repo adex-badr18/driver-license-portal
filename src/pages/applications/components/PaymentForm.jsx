@@ -20,6 +20,7 @@ const PaymentForm = ({
     paymentResponse,
     setPaymentResponse,
 }) => {
+    window.scrollTo(0, 200);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
