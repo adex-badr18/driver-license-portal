@@ -12,7 +12,7 @@ const HomePage = () => {
             <LicenseProcess />
             <Services />
             <CounterDisplay />
-            <Testimonials />
+            {/* <Testimonials /> */}
         
         </div>
     )
