@@ -17,7 +17,6 @@ const Review = ({
     const submit = async (e) => {
         e.preventDefault();
 
-
         // console.log();
         // console.log(biodata.file);
 
@@ -149,13 +148,11 @@ const Review = ({
                             </button>
                         </div>
                         <div className="flex flex-col gap-6 p-4">
-                            <div className="size-28 rounded-full justify-center">
-                                <img
-                                    src={biodata.passport_photo}
-                                    className="object-cover w-full rounded-full"
-                                    alt="Passport Photo"
-                                />
-                            </div>
+                            <img
+                                src={biodata.passport_photo}
+                                className="w-20 h-auto object-cover rounded-full"
+                                alt="Passport Photo"
+                            />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                                 <div className="">
                                     <label
