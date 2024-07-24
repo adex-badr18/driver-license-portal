@@ -34,93 +34,97 @@ const Appointment = () => {
                 Appointment Scheduled
             </h1>
 
-            <div className="flex flex-col gap-4 w-full md:w-[576px] border p-6">
-                <h3 className="text-xl font-semibold pb-2 border-b">
-                    Personal Information
-                </h3>
+            {applicationType === "new" && (
+                <div className="flex flex-col gap-4 w-full md:w-[576px] border p-6">
+                    <h3 className="text-xl font-semibold pb-2 border-b">
+                        Personal Information
+                    </h3>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="fullName"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        Full Name:
-                    </label>
-                    <p className="font-bold text-grey" id="fullName">
-                        {applicationType === "new"
-                            ? `${biodata.first_name} ${biodata.middle_name} ${biodata.last_name}`
-                            : `${profile.first_name} ${profile.middle_name} ${profile.last_name}`}
-                    </p>
-                </div>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="fullName"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            Full Name:
+                        </label>
+                        <p className="font-bold text-grey" id="fullName">
+                            {applicationType === "new"
+                                ? `${biodata.first_name} ${biodata.middle_name} ${biodata.last_name}`
+                                : `${profile.first_name} ${profile.middle_name} ${profile.last_name}`}
+                        </p>
+                    </div>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="email"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        Email:
-                    </label>
-                    <p className="font-bold text-grey" id="email">
-                        {applicationType === "new"
-                            ? contactData.email
-                            : auth.user.email}
-                    </p>
-                </div>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="email"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            Email:
+                        </label>
+                        <p className="font-bold text-grey" id="email">
+                            {applicationType === "new"
+                                ? contactData.email
+                                : auth.user.email}
+                        </p>
+                    </div>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="phone"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        Phone Number:
-                    </label>
-                    <p className="font-bold text-grey" id="phone">
-                        {applicationType === "new"
-                            ? contactData.phone
-                            : profile.phone_number}
-                    </p>
-                </div>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="phone"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            Phone Number:
+                        </label>
+                        <p className="font-bold text-grey" id="phone">
+                            {applicationType === "new"
+                                ? contactData.phone
+                                : profile.phone_number}
+                        </p>
+                    </div>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="nin"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        NIN:
-                    </label>
-                    <p className="font-bold text-grey" id="nin">
-                        {applicationType === "new" ? biodata.nin : profile.nin}
-                    </p>
-                </div>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="nin"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            NIN:
+                        </label>
+                        <p className="font-bold text-grey" id="nin">
+                            {applicationType === "new"
+                                ? biodata.nin
+                                : profile.nin}
+                        </p>
+                    </div>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="state"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        State of Residence:
-                    </label>
-                    <p className="font-bold text-grey" id="state">
-                        {applicationType === "new"
-                            ? contactData.state
-                            : profile.state_of_residence}
-                    </p>
-                </div>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="state"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            State of Residence:
+                        </label>
+                        <p className="font-bold text-grey" id="state">
+                            {applicationType === "new"
+                                ? contactData.state
+                                : profile.state_of_residence}
+                        </p>
+                    </div>
 
-                <div className="flex justify-between gap-10">
-                    <label
-                        htmlFor="lga"
-                        className="mb-[2px] block text-base font-medium text-neutral-700"
-                    >
-                        LGA:
-                    </label>
-                    <p className="font-bold text-grey" id="lga">
-                        {applicationType === "new"
-                            ? contactData.lga
-                            : profile.local_govt_area}
-                    </p>
+                    <div className="flex justify-between gap-10">
+                        <label
+                            htmlFor="lga"
+                            className="mb-[2px] block text-base font-medium text-neutral-700"
+                        >
+                            LGA:
+                        </label>
+                        <p className="font-bold text-grey" id="lga">
+                            {applicationType === "new"
+                                ? contactData.lga
+                                : profile.local_govt_area}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className="flex flex-col gap-4 w-full md:w-[576px] border p-6">
                 <h3 className="text-xl font-semibold pb-2 border-b">
@@ -163,9 +167,9 @@ const Appointment = () => {
                         Capture Center:
                     </label>
                     <p className="font-bold text-grey" id="capture-center">
-                        {
-                            `FRSC Capture Center, ${contactData.lga}, ${contactData.state}.`
-                        }
+                        {applicationType === "new"
+                            ? `FRSC Capture Center, ${contactData.lga}, ${contactData.state}.`
+                            : `FRSC Capture Center at your state of residence.`}
                         {/* {applicationType === "new"
                             ? "Beside FO filling station, Unilag Premise, Lagos Mainland, Lagos."
                             : applicationType === "renewal"
