@@ -70,7 +70,7 @@ const Profile = () => {
         joined: "21-12-3034",
         lastRenewal: "--",
         nextRenewal: "--",
-        image: "src/assets/images/close-up-friends-traveling-by-car.jpg",
+        image: profile.passport_photo,
     });
 
     console.log(profile);
