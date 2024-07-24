@@ -4,8 +4,13 @@ import coatofarm from "../assets/coatOfArm.png"
 // import search from "../assets/search.svg"
 import { Link } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
+import Button, { Button2 } from "./utils/Button";
+import SideMenu from "./SideMenu";
+import { useState } from "react";
+import { RxAvatar } from "react-icons/rx";
 
 const Header = () => {
+    const [popup, setPopup] = useState(false)
 
     const { auth } = useAuth()
 
@@ -20,6 +25,7 @@ const Header = () => {
 
                 <div className="border-l pl-3 grid place-content-center border-green-700">
                     <img src={logo} alt="" />
+                    <span className="text-[13px] tracking-wide text-custom-green uppercase font-bold -mt-2 ml-2">Instant Drivers License</span>
                 </div>
 
             </div>
@@ -43,35 +49,47 @@ const Header = () => {
 
             </div> */}
             <div className="flex gap-6">
-                <div className="flex gap-4 items-center">
+                <div className="flex gap-4 justify-center items-center">
 
                     {
                         !auth.user ? <>
-                            <Link to="/login">
-                                <button className="bg-custom-green py-3 w-28 rounded-2xl text-white">
-                                    Login
-                                </button>
-                            </Link>
 
-                            <Link to="/signup">
-                                <button className="border-custom-green border py-3 w-28  rounded-2xl font-semibold text-custom-green">
-                                    Sign up
-                                </button>
-                            </Link>
+                            <Button btnLink={"/login"}>
+                                Login
+                            </Button>
+
+
+                            <Button2
+                                btnLink={"/signup"}>
+                                Sign up
+                            </Button2>
+
                         </> : <>
-                            <div className="border p-1 rounded-full h-16">
-                                <img className="h-full rounded-full" src={auth.user.image} alt="" />
+                            <div onClick={() => { setPopup(!popup) }} className="border rounded-full size-10">
+                                {
+                                    auth.user.image ? (
+                                        <img className="h-full rounded-full cursor-pointer" src={auth.user.image} alt="" />
+                                    ) : (
+                                        <RxAvatar className="size-10 rounded-full cursor-pointer text-custom-green" />
+                                    )
+                                }
                             </div>
 
                         </>
                     }
-
-
-
                 </div >
             </div >
 
+
+            {(auth.user && popup) && <SideMenu
+                closeFunc={() => {
+                    setPopup(false)
+                }}
+            />}
+
+
         </header >
+
 
     );
 };

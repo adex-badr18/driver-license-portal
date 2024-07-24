@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NaijaStates from "naija-state-local-government";
-import { hasNoEmptyValue } from "../utils";
+import { hasEmptyValue } from "../utils";
 
 const ContactForm = ({
     formData,
@@ -12,15 +12,16 @@ const ContactForm = ({
 }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [state, setState] = useState("");
+    const isInvalid = hasEmptyValue(formData);
 
     const submit = (e) => {
         e.preventDefault();
 
+        window.scrollTo(0, 200);
+
         setErrorMessage("");
 
-        console.log(formData);
-
-        if (!formData.state && !formData.lga && !hasNoEmptyValue(formData)) {
+        if (hasEmptyValue(formData)) {
             setErrorMessage("All fields are required.");
             return;
         }
@@ -178,13 +179,14 @@ const ContactForm = ({
                     <button
                         className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
                         onClick={goBack}
-                    >
+                        >
                         Previous
                     </button>
 
                     <button
-                        className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
+                        className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                         onClick={submit}
+                        disabled={isInvalid}
                     >
                         Continue
                     </button>

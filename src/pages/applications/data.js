@@ -1,3 +1,51 @@
+export const vehicleTypes = [
+    {
+        id: 1,
+        class: 'A',
+        description: "Motorcycle"
+    },
+    {
+        id: 2,
+        class: 'B',
+        description: "Light Vehicle"
+    },
+    {
+        id: 3,
+        class: 'C',
+        description: "Light Commercial Vehicle"
+    },
+    {
+        id: 4,
+        class: 'D',
+        description: "Medium Vehicle"
+    },
+    {
+        id: 5,
+        class: 'E',
+        description: "Heavy Vehicle"
+    },
+    {
+        id: 6,
+        class: 'F',
+        description: "Agricultural Vehicles"
+    },
+    {
+        id: 7,
+        class: 'G',
+        description: "Articulated Vehicles"
+    },
+    {
+        id: 8,
+        class: 'H',
+        description: "Construction Vehicles"
+    },
+    {
+        id: 9,
+        class: 'I',
+        description: "Special Vehicles"
+    },
+];
+
 export const newApplicationProcedure = [
     {
         id: 1,
@@ -48,5 +96,20 @@ export const reissueProcedure = [
     {
         id: 4,
         description: "After completing the application, you will get an appointment slip which you will take to a capturing center to complete the rest of the driver’s license application process."
+    },
+];
+
+export const paymentInfo = [
+    {
+        id: 1,
+        description: "Get your debit card ready to make this payment."
+    },
+    {
+        id: 2,
+        description: "Please do ensure you have a stable internet connection to avoid payment issues."
+    },
+    {
+        id: 3,
+        description: "All credit/debit card transactions include an additional payment processing fee."
     },
 ];

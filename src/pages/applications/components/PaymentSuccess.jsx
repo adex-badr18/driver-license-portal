@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 
-const PaymentSuccess = ({ step, setStep, setIsPaid }) => {
+const PaymentSuccess = ({ step, setStep, setIsPaid, paymentResponse }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const goToReview = () => {
@@ -25,13 +25,16 @@ const PaymentSuccess = ({ step, setStep, setIsPaid }) => {
             </div>
 
             <div className="flex flex-col items-center">
-                <h3 className="text-lg font-bold mb-5">
+                <h3 className="text-lg font-bold mb-3">
                     Your payment has been successfully processed!
                 </h3>
+                <div className="flex items-center justify-center gap-2 mb-5 px-4 py-2 bg-green-200 text-green-800 rounded-lg">
+                    <h4 className="">PAYMENT REFERENCE:</h4>
+                    <h4 className="font-bold">{paymentResponse.reference}</h4>
+                </div>
                 <p className="">
-                    Please review your biodata and contact information
+                    Please check your email for a summary of the payment.
                 </p>
-                <p className="">before you submit your application.</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-1">
@@ -45,7 +48,7 @@ const PaymentSuccess = ({ step, setStep, setIsPaid }) => {
                             <span>Wait...</span>
                         </div>
                     ) : (
-                        "Review Your Information"
+                        "Review Your Application"
                     )}
                 </button>
             </div>

@@ -26,34 +26,34 @@ const BasicDetails = (props) => {
 
             <SingleDetail 
                 label="Surname"
-                details ={props.state.surname} />
+                details ={props.state.surname ? props.state.surname : "--"} />
             <SingleDetail 
                 label="First Name"
-                details ={props.state.firstname} />
+                details ={props.state.firstname ? props.state.firstname : "--"} />
             <SingleDetail 
                 label="Middle Name"
-                details ={props.state.middlename} />
+                details ={props.state.middlename ? props.state.middlename : "--"} />
             <SingleDetail
                 label='Email'
-                details={props.state.email} />
+                details={props.state.email ? props.state.email : ""} />
             <SingleDetail
                 label="Phone Number"
-                details={props.state.phone}/>
+                details={props.state.phone ? props.state.phone : ""}/>
             <SingleDetail 
                 label='Date of Birth'
-                details={props.state.dob} />
+                details={props.state.dob ? props.state.dob : "--"} />
             <SingleDetail 
                 label='Gender'
-                details={props.state.gender} />
+                details={props.state.gender ? props.state.gender : "--"} />
             <SingleDetail 
                 label='Home Address'
-                details={props.state.address} />
+                details={props.state.address ? props.state.address : "--"} />
            <SingleDetail 
                 label='L.G.A'
-                details={props.state.lga} />
+                details={props.state.lga ? props.state.lga : ""} />
           <SingleDetail 
                 label='State'
-                details={props.state.StateofAddress} />
+                details={props.state.StateofAddress ? props.state.StateofAddress : "--"} />
         </div>
         </div>
         {showModal?

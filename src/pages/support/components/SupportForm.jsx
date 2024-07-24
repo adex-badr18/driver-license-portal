@@ -1,3 +1,4 @@
+import Button from "../../../components/utils/Button"
 
 
 const SupportForm = ({ BtnFunction }) => {
@@ -40,7 +41,10 @@ const SupportForm = ({ BtnFunction }) => {
 
             </div>
             <div className="mt-10 grid place-content-end">
-                <button onClick={BtnFunction} className="bg-custom-green text-white py-2.5 px-8 rounded-md">Submit</button>
+                <Button BtnFunction={BtnFunction}>
+                    Submit
+                </Button>
+
             </div>
         </div>
     )

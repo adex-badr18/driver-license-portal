@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { hasNoEmptyValue } from "../utils";
+import { hasEmptyValue } from "../utils";
+import { vehicleTypes } from "../data";
 
 const BiodataForm = ({
     formData,
@@ -11,25 +12,44 @@ const BiodataForm = ({
     applicationType,
 }) => {
     const [errorMessage, setErrorMessage] = useState("");
+    const isInvalid = hasEmptyValue(formData);
+
+    console.log(formData);
+
+    const onImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            let reader = new FileReader();
+            const file = e.target.files[0];
+            reader.onloadend = () => {
+                setBiodataForm((prev) => ({
+                    ...prev,
+                    passport_photo: reader.result,
+                    file
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const submit = (e) => {
         e.preventDefault();
 
+        window.scrollTo(0, 200);
         setErrorMessage("");
 
         // console.log(formData);
 
-        // if (!hasNoEmptyValue(formData)) {
-        //     setErrorMessage("All fields are required.");
-        //     return;
-        // }
+        if (hasEmptyValue(formData)) {
+            setErrorMessage("All fields are required.");
+            return;
+        }
 
         setIsSubmitted(true);
         setStep(step + 1);
     };
 
     return (
-        <div className="py-4">
+        <div className="pb-4">
             {errorMessage && (
                 <p className="bg-red-200 text-red-900 text-sm px-3 py-2 rounded-md mb-4">
                     {errorMessage}
@@ -37,245 +57,265 @@ const BiodataForm = ({
             )}
 
             <form className="">
-                <div className="flex flex-col gap-4 md:gap-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                        {/* First Name */}
-                        <div className="">
-                            <label
-                                htmlFor="firstName"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                First Name{" "}
-                                <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                value={formData.firstName}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="First Name"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Last Name */}
-                        <div className="">
-                            <label
-                                htmlFor="lastName"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Last Name{" "}
-                                <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                value={formData.lastName}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Last Name"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                        {/* Middle Name */}
-                        <div className="">
-                            <label
-                                htmlFor="middleName"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Middle Name
-                            </label>
-                            <input
-                                type="text"
-                                name="middleName"
-                                id="middleName"
-                                value={formData.middleName}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Middle Name"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                            />
-                        </div>
-
-                        <div className="">
-                            <label
-                                htmlFor="gender"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Gender <small className="text-red-800">*</small>
-                            </label>
-                            <select
-                                name="gender"
-                                id="gender"
-                                value={formData.gender}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-[10px] px-4 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
-                            >
-                                <option value="">--Select gender--</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                        <div className="">
-                            <label
-                                htmlFor="dateOfBirth"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Date of Birth{" "}
-                                <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="date"
-                                name="dateOfBirth"
-                                id="dateOfBirth"
-                                value={formData.dateOfBirth}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Date of Birth"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-
-                        <div className="">
-                            <label
-                                htmlFor="motherMaidenName"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Mother's Maiden Name{" "}
-                                <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="text"
-                                name="motherMaidenName"
-                                id="motherMaidenName"
-                                value={formData.motherMaidenName}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Mother's Maiden Name"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                        {/* NIN */}
-                        <div className="">
-                            <label
-                                htmlFor="nin"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                NIN <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="text"
-                                name="nin"
-                                id="nin"
-                                value={formData.nin}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="NIN"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-
-                        {/* Driving School Certificate Number */}
-                        <div className="">
-                            <label
-                                htmlFor="drivingCertificateNumber"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Driving School Certificate Number
-                            </label>
-                            <input
-                                type="text"
-                                name="drivingCertificateNumber"
-                                id="drivingCertificateNumber"
-                                value={formData.drivingCertificateNumber}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Driving School Certificate Number"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                        <div className="">
-                            <label
-                                htmlFor="passportPhoto"
-                                className="mb-[2px] block text-base font-medium text-neutral-700"
-                            >
-                                Passport Photo{" "}
-                                <small className="text-red-800">*</small>
-                            </label>
-                            <input
-                                type="file"
-                                name="passportPhoto"
-                                id="passportPhoto"
-                                // value={formData.passportPhoto}
-                                onChange={(e) =>
-                                    handleChange(e, setBiodataForm)
-                                }
-                                placeholder="Passport Photo"
-                                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                required
-                            />
-                        </div>
-
-                        {applicationType === "re-issue" && (
+                <fieldset className="border-2 px-8 py-6 rounded-md mb-6">
+                    <legend className="px-2 text-lg font-medium">
+                        Personal Information
+                    </legend>
+                    <div className="flex flex-col gap-4 md:gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                            {/* First Name */}
                             <div className="">
                                 <label
-                                    htmlFor="legalReportFile"
+                                    htmlFor="first_name"
                                     className="mb-[2px] block text-base font-medium text-neutral-700"
                                 >
-                                    Affidavit/Police Report{" "}
+                                    First Name{" "}
                                     <small className="text-red-800">*</small>
                                 </label>
                                 <input
-                                    type="file"
-                                    name="legalReportFile"
-                                    id="legalReportFile"
-                                    // value={formData.legalReportFile}
+                                    type="text"
+                                    name="first_name"
+                                    id="first_name"
+                                    value={formData.first_name}
                                     onChange={(e) =>
                                         handleChange(e, setBiodataForm)
                                     }
-                                    placeholder="Affidavit/Police Report"
+                                    placeholder="First Name"
                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                     required
                                 />
                             </div>
-                        )}
+
+                            {/* Last Name */}
+                            <div className="">
+                                <label
+                                    htmlFor="last_name"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Last Name{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    id="last_name"
+                                    value={formData.last_name}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="Last Name"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                            {/* Middle Name */}
+                            <div className="">
+                                <label
+                                    htmlFor="middle_name"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Middle Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="middle_name"
+                                    id="middle_name"
+                                    value={formData.middle_name}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="Middle Name"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                />
+                            </div>
+
+                            <div className="">
+                                <label
+                                    htmlFor="gender"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Gender{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <select
+                                    name="gender"
+                                    id="gender"
+                                    value={formData.gender}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
+                                >
+                                    <option value="">--Select gender--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                            <div className="">
+                                <label
+                                    htmlFor="date_of_birth"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Date of Birth{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <input
+                                    type="date"
+                                    name="date_of_birth"
+                                    id="date_of_birth"
+                                    value={formData.date_of_birth}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="Date of Birth"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+
+                            <div className="">
+                                <label
+                                    htmlFor="mothers_maiden_name"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Mother's Maiden Name{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="mothers_maiden_name"
+                                    id="mothers_maiden_name"
+                                    value={formData.mothers_maiden_name}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="Mother's Maiden Name"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                            {/* NIN */}
+                            <div className="">
+                                <label
+                                    htmlFor="nin"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    NIN{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="nin"
+                                    id="nin"
+                                    value={formData.nin}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="NIN"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+
+                            <div className="">
+                                <label
+                                    htmlFor="passport_photo"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Passport Photo{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <input
+                                    type="file"
+                                    name="passport_photo"
+                                    id="passport_photo"
+                                    onChange={onImageChange}
+                                    placeholder="Passport Photo"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </fieldset>
+
+                <fieldset className="border-2 px-8 py-6 rounded-md">
+                    <legend className="px-2 text-lg font-medium">
+                        License Information
+                    </legend>
+
+                    <div className="flex flex-col gap-4 md:gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                            <div className="">
+                                <label
+                                    htmlFor="vehicle_class"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Vehicle Class{" "}
+                                    <small className="text-red-800">*</small>
+                                </label>
+                                <select
+                                    name="vehicle_class"
+                                    id="vehicle_class"
+                                    value={formData.vehicle_class}
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
+                                >
+                                    <option value="">
+                                        --Select Vehicle Class--
+                                    </option>
+                                    {vehicleTypes.map((type) => (
+                                        <option
+                                            key={type.id}
+                                            value={type.class}
+                                        >{`${type.class} - ${type.description}`}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Driving School Certificate Number */}
+                            <div className="">
+                                <label
+                                    htmlFor="driving_school_certificate_number"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Driving School Certificate Number
+                                </label>
+                                <input
+                                    type="text"
+                                    name="driving_school_certificate_number"
+                                    id="driving_school_certificate_number"
+                                    value={
+                                        formData.driving_school_certificate_number
+                                    }
+                                    onChange={(e) =>
+                                        handleChange(e, setBiodataForm)
+                                    }
+                                    placeholder="Driving School Certificate Number"
+                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
 
                 <div className="flex justify-end mt-4">
                     <button
-                        className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
+                        className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                         onClick={submit}
+                        disabled={isInvalid}
                     >
                         Continue
                     </button>

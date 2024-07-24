@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import VerificationFailed from "./components/VerificationFailed"
 import VerificationSuccess from "./components/VerificationSuccess"
+import Button from "../../components/utils/Button";
+import axios from "axios";
 
 
 
@@ -24,9 +26,20 @@ const Verify = () => {
         console.log(Popup)
     }
 
-    const verifyID = () => {
+    const verifyID = async () => {
         console.log(IDinput.current.value)
-        SetPopup(true)
+        SetPopup(true);
+
+        // Consume Endpoint
+        const licenseId = IDinput.current.value;
+        try {
+            const res = await axios.get(`https://saviorte.pythonanywhere.com/api/licenses/${licenseId}/`);
+            
+            if (res.status === 200) console.log(res.data);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+        // End
 
         if (!Popup) {
             document.querySelector("body").classList.add("h-screen")
@@ -67,8 +80,13 @@ const Verify = () => {
                         </div>
 
                         <div className="mt-5 grid place-content-end">
-                            <button onClick={verifyID} className="bg-custom-green text-white py-2.5 px-8 rounded-md">Submit</button>
+                            <div className="m-4 grid place-content-end">
+                                <Button BtnFunction={verifyID}>
+                                    Submit
+                                </Button>
 
+
+                            </div>
                         </div>
                     </div>
 

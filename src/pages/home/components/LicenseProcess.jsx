@@ -6,7 +6,7 @@ import phoneImg from "../../../assets/images/process.png"
 
 const LicenseProcess = () => {
     return (
-        <section className='w-full p-4 md:p-10 lg:p-20 flex-col lg:flex-row flex bg-slate-100'>
+        <section className='w-full p-4 md:p-10 lg:p-20 flex-col lg:flex-row flex bg-white'>
             <div className='text-2xl md:text-3xl lg:text-[44px]/[45px] text-black font-semibold  text-center p-4 md:p-8 text-wrap flex flex-col items-center justify-center'>
                 <em className="text-[#22C55E] ">Four simple steps</em> to get your license done
             </div>

@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
-import { hasNoEmptyValue } from "../utils";
+import { hasEmptyValue } from "../utils";
 import CustomModal from "./CustomModal";
 import PaymentSuccess from "./PaymentSuccess";
+import ProcedureListItem from "../../../components/ProcedureListItem";
+import { paymentInfo } from "../data";
 
 const PaymentForm = ({
     formData,
     setPaymentForm,
     handleChange,
+    applicantEmail,
     isPaid,
     setIsPaid,
     step,
     setStep,
     setIsSubmitted,
     applicationType,
+    paymentResponse,
+    setPaymentResponse,
 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -25,39 +30,52 @@ const PaymentForm = ({
             ? 40000
             : 50000;
 
-    const serviceCharge = 155;
-    console.log(isPaid);
+    // console.log(isPaid);
 
     const openModal = () => setIsModalOpen(true);
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        setIsSubmitting(true);
-        setErrorMessage("");
-
-        if (!hasNoEmptyValue(formData)) {
-            setErrorMessage("All fields are required.");
-            return;
-        }
-
-        console.log(formData);
-
-        setTimeout(() => {
-            setIsSubmitted(true);
-            setIsSubmitting(false);
-            openModal();
-            setIsSubmitting(false);
-
-            // setIsPaid(true);
-            // setStep(step + 1);
-        }, 3000);
-    };
 
     const goBack = (e) => {
         e.preventDefault();
 
         setStep(step - 1);
+    };
+
+    const payWithPaystack = (e) => {
+        e.preventDefault();
+
+        setIsSubmitting(true);
+
+        let handler = PaystackPop.setup({
+            key: "pk_test_ae72c93945182aca7f412a5fe98b988309e9a132", // Replace with your public key
+            email: applicantEmail,
+            amount: licenseAmount * 100,
+            currency: "NGN",
+            ref: "REF" + Math.floor(Math.random() * 1000000000 + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+            // label: "Optional string that replaces customer email"
+            onClose: () => {
+                // alert("Window closed.");
+                setIsSubmitting(false);
+            },
+            callback: (response) => {
+                console.log(response);
+                setIsSubmitting(false);
+                setIsSubmitted(true);
+                // setIsPaid(true);
+                setPaymentResponse({
+                    status: response.status,
+                    message: response.message,
+                    reference: response.reference,
+                });
+                
+                openModal();
+
+                // let message =
+                //     "Payment complete! Reference: " + response.reference;
+                // alert(message);
+            },
+        });
+
+        handler.openIframe();
     };
 
     return isPaid ? (
@@ -72,178 +90,48 @@ const PaymentForm = ({
                 <h3 className="text-lg font-bold mb-5">
                     Your payment has been successfully processed!
                 </h3>
+                <div className="flex items-center justify-center gap-2 mb-5 px-4 py-2 bg-green-200 text-green-800 rounded-lg">
+                    <h4 className="">PAYMENT REFERENCE:</h4>
+                    <h4 className="font-bold">{paymentResponse.reference}</h4>
+                </div>
                 <p className="">
-                    Please review your biodata and contact information
+                    Please check your email for a summary of the payment.
                 </p>
-                <p className="">before you submit your application.</p>
             </div>
 
             <button
                 className=" bg-custom-green hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
                 onClick={() => setStep(step + 1)}
             >
-                Review Your Information
+                Review Your Application
             </button>
         </div>
     ) : (
         <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-10">
-            <div className="py-4 flex-1">
-                {errorMessage && (
-                    <p className="bg-red-200 text-red-900 text-sm px-3 py-2 rounded-md mb-4">
-                        {errorMessage}
-                    </p>
-                )}
-
-                <form className="">
-                    <div className="flex flex-col gap-4 md:gap-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                            <div className="">
-                                <label
-                                    htmlFor="cardName"
-                                    className="mb-[2px] block text-base font-medium text-neutral-700"
-                                >
-                                    Card Name{" "}
-                                    <small className="text-red-800">*</small>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cardName"
-                                    id="cardName"
-                                    value={formData.cardName}
-                                    onChange={(e) =>
-                                        handleChange(e, setPaymentForm)
-                                    }
-                                    placeholder="Card Name"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    required
-                                />
-                            </div>
-
-                            {/* card Number */}
-                            <div className="">
-                                <label
-                                    htmlFor="cardNumber"
-                                    className="mb-[2px] block text-base font-medium text-neutral-700"
-                                >
-                                    Card Number{" "}
-                                    <small className="text-red-800">*</small>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cardNumber"
-                                    id="cardNumber"
-                                    value={formData.cardNumber}
-                                    onChange={(e) =>
-                                        handleChange(e, setPaymentForm)
-                                    }
-                                    placeholder="Card Number"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-                            <div className="">
-                                <label
-                                    htmlFor="expiry"
-                                    className="mb-[2px] block text-base font-medium text-neutral-700"
-                                >
-                                    Card Expiry{" "}
-                                    <small className="text-red-800">*</small>
-                                </label>
-                                <input
-                                    type="date"
-                                    name="expiry"
-                                    id="expiry"
-                                    value={formData.expiry}
-                                    onChange={(e) =>
-                                        handleChange(e, setPaymentForm)
-                                    }
-                                    placeholder="Card Expiry"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    required
-                                />
-                            </div>
-
-                            <div className="">
-                                <label
-                                    htmlFor="cvv"
-                                    className="mb-[2px] block text-base font-medium text-neutral-700"
-                                >
-                                    CVV{" "}
-                                    <small className="text-red-800">*</small>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cvv"
-                                    id="cvv"
-                                    value={formData.cvv}
-                                    onChange={(e) =>
-                                        handleChange(e, setPaymentForm)
-                                    }
-                                    placeholder="CVV"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1">
-                            {/* Card Pin */}
-                            <div className="">
-                                <label
-                                    htmlFor="cardPin"
-                                    className="mb-[2px] block text-base font-medium text-neutral-700"
-                                >
-                                    Card Pin{" "}
-                                    <small className="text-red-800">*</small>
-                                </label>
-                                <input
-                                    type="password"
-                                    name="cardPin"
-                                    id="cardPin"
-                                    value={formData.cardPin}
-                                    onChange={(e) =>
-                                        handleChange(e, setPaymentForm)
-                                    }
-                                    placeholder="Card Pin"
-                                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                    required
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div className="flex flex-col gap-4 md:gap-6 shadow-lg p-8">
+                <h2 className="text-xl md:text-2xl font-medium text-custom-green">
+                    Before you proceed...
+                </h2>
+                {paymentInfo.map((info, index) => (
+                    <ProcedureListItem key={index} listItemData={info} />
+                ))}
             </div>
 
             {/* Payment Summary */}
-            <div className="payment-summary flex flex-col md:self-start md:mt-6 md:w-72 gap-2 border border-gray-200 rounded-md">
-                <div className="flex justify-center p-4 bg-neutral-200">
-                    <h1 className="font-bold text-grey">Payment Summary</h1>
+            <div className="payment-summary flex flex-col w-full md:w-96 gap-2 border border-gray-200 rounded-md">
+                <div className="flex justify-center p-4 bg-green-100">
+                    <h1 className="font-bold text-custom-green">Payment Summary</h1>
                 </div>
 
-                <div className="flex justify-between gap-4 px-4">
-                    <h1 className="">License Fee:</h1>
-                    <h1 className="font-bold text-grey">{`₦${licenseAmount}.00`}</h1>
-                </div>
-
-                <div className="flex justify-between px-4">
-                    <h1 className="">Service Charge:</h1>
-                    <h1 className="font-bold text-grey">{`₦${serviceCharge}.00`}</h1>
-                </div>
-
-                <div className="flex justify-between border-y p-4">
-                    <h1 className="">Grand Total:</h1>
-                    <h1 className="font-bold text-grey">{`$${(
-                        serviceCharge + licenseAmount
-                    ).toFixed(2)}`}</h1>
+                <div className="flex flex-col justify-center items-center gap-2 px-4 h-full">
+                    <h1 className="text-lg font-bold text-grey">License Fee:</h1>
+                    <h1 className="text-4xl font-bold text-grey">{`₦${licenseAmount}.00`}</h1>
                 </div>
 
                 <div className="px-4 pt-2 pb-4">
                     <button
                         className="w-full bg-custom-green hover:bg-green-600 px-4 py-3 text-white font-medium tracking-widest rounded-lg"
-                        onClick={submit}
+                        onClick={payWithPaystack}
                     >
                         {isSubmitting ? (
                             <div className="flex justify-center gap-4">
@@ -263,6 +151,7 @@ const PaymentForm = ({
                     step={step}
                     setStep={setStep}
                     setIsPaid={setIsPaid}
+                    paymentResponse={paymentResponse}
                 />
             </CustomModal>
         </div>

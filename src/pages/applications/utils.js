@@ -1,3 +1,3 @@
-export const hasNoEmptyValue = (formData) => {
-    return Object.values(formData).every(value => value !== '');
+export const hasEmptyValue = (formData) => {
+    return Object.values(formData).some(value => Boolean(value) === false);
 };

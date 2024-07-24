@@ -32,7 +32,7 @@ const Faq = () => {
     ];
 
     return (
-        <section className="my-10 p-7 border rounded dark:border-slate-700 shadow-sm w-[700px] mx-auto">
+        <section className="my-10 p-7 border rounded dark:border-slate-700 shadow-sm w-full md:w-[700px] md:mx-auto">
             <h1 className="text-2xl text-center font-semibold dark:text-slate-100 mb-3 underline underline-offset-8 ">
                 Frequently Asked Questions
             </h1>

@@ -2,9 +2,9 @@
 
 const Spinner = () => {
     return (
-        <div className="w-full h-full flex justify-center items-center">
+        <div className="w-full min-h-[28rem] flex justify-center pt-10">
             {/* <!-- Edge Y Ring Spinner s2 --> */}
-            <div className="w-20 h-20 rounded-full animate-spin border-y-4 border-solid border-green-700 border-t-transparent shadow-md"></div>
+            <div className="size-16 rounded-full animate-spin border-y-4 border-solid border-green-700 border-t-transparent shadow-md"></div>
         </div>
     );
 };
