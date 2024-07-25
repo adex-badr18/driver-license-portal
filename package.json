@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@paystack/inline-js": "^2.19.2",
     "axios": "^1.7.2",
     "flowbite-react": "^0.10.1",
     "lucide-react": "^0.408.0",

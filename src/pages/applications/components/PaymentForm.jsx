@@ -5,6 +5,7 @@ import CustomModal from "./CustomModal";
 import PaymentSuccess from "./PaymentSuccess";
 import ProcedureListItem from "../../../components/ProcedureListItem";
 import { paymentInfo } from "../data";
+import PaystackPop from "@paystack/inline-js";
 
 const PaymentForm = ({
     formData,
@@ -67,7 +68,7 @@ const PaymentForm = ({
                     message: response.message,
                     reference: response.reference,
                 });
-                
+
                 openModal();
 
                 // let message =
@@ -121,11 +122,15 @@ const PaymentForm = ({
             {/* Payment Summary */}
             <div className="payment-summary flex flex-col w-full md:w-96 gap-2 border border-gray-200 rounded-md">
                 <div className="flex justify-center p-4 bg-green-100">
-                    <h1 className="font-bold text-custom-green">Payment Summary</h1>
+                    <h1 className="font-bold text-custom-green">
+                        Payment Summary
+                    </h1>
                 </div>
 
                 <div className="flex flex-col justify-center items-center gap-2 px-4 h-full">
-                    <h1 className="text-lg font-bold text-grey">License Fee:</h1>
+                    <h1 className="text-lg font-bold text-grey">
+                        License Fee:
+                    </h1>
                     <h1 className="text-4xl font-bold text-grey">{`₦${licenseAmount}.00`}</h1>
                 </div>
 
