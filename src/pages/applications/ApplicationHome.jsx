@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import heroImg from "../../assets/hand-card.webp";
 import LinkButton from "../../components/LinkButton";
 import {
@@ -10,15 +10,17 @@ import {
 import ProcedureListItem from "../../components/ProcedureListItem";
 
 const ApplicationHome = () => {
-    const { state } = useLocation();
-    const { type } = state;
+    // const { state } = useLocation();
+    const params = useParams();
+    const { type } = params;
     const procedure =
-        type === "new"
-            ? newApplicationProcedure
-            : type === "renewal"
-                ? renewalProcedure
-                : reissueProcedure;
-    console.log(state);
+    type === "new"
+    ? newApplicationProcedure
+    : type === "renewal"
+    ? renewalProcedure
+    : reissueProcedure;
+    console.log(type);
+    // console.log(state);
 
     const scrollToTop = () => {
         window.scrollTo(0, 170);
@@ -55,7 +57,7 @@ const ApplicationHome = () => {
 
                     <LinkButton
                         buttonText="Start Application"
-                        linkTo="/application/form"
+                        linkTo={`/applications/${type}/form`}
                         onClick={scrollToTop}
                         state={{ type }}
                         classAttr="self-start py-3 px-8 rounded-full bg-custom-green text-white text-center hover:bg-green-600"

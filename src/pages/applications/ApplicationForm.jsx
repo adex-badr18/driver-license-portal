@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import BiodataForm from "./components/BiodataForm";
 import PaymentForm from "./components/PaymentForm";
 import ContactForm from "./components/ContactForm";
@@ -19,7 +19,8 @@ import RenewalReissueForm from "./components/RenewalReissueForm";
 
 const ApplicationForm = () => {
     const { state } = useLocation();
-    const { type } = state;
+    const params = useParams();
+    const { type } = params;
     const [step, setStep] = useState(1);
     const [isBiodataSubmitted, setIsBiodataSubmitted] = useState(false);
     const [isContactSubmitted, setIsContactSubmitted] = useState(false);

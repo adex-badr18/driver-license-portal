@@ -4,9 +4,11 @@ import { requireAuth } from "../../utils/auth";
 
 import { useLoaderData } from "react-router-dom";
 import { getLicense, getProfile } from "../../api";
+import { applicationCardData } from "./data";
 
 import Button from "../../components/utils/Button";
 import axios from "axios";
+import ApplicationCard from "./components/ApplicationCard";
 
 export const loader = async ({ request }) => {
     await requireAuth(request);
@@ -25,14 +27,13 @@ export const loader = async ({ request }) => {
 };
 
 const Dashboard = () => {
-    window.scrollTo(0, 0);
     const data = useLoaderData();
     const { profile, license } = data;
     const { auth } = useAuth();
     const user = auth.user;
 
-    console.log(profile)
-    console.log(license)
+    console.log(profile);
+    console.log(license);
 
     return (
         <div className="md:px-10 lg:px-20 max-w-[100vw] overflow-hidden px-4  py-4 pb-20 ">
@@ -78,6 +79,21 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div> */}
+            </div>
+
+            <div class="mx-auto max-w-2xl py-6 md:py-12 lg:max-w-none">
+                {/* <h2 class="text-2xl w-2/3 mx-auto font-bold text-gray-900">Collections</h2> */}
+
+                <div className="flex flex-col md:flex-row w-2/3 mx-auto">
+                    {applicationCardData.map((cardData) => (
+                        <ApplicationCard
+                            key={cardData.id}
+                            icon={cardData.icon}
+                            applicationType={cardData.applicationType}
+                            linkTo={cardData.linkTo}
+                        />
+                    ))}
+                </div>
             </div>
 
             <div className=" md:grid mt-4 md:grid-cols-2 md:gap-10 gap-4 items-start ">
@@ -167,28 +183,38 @@ const Dashboard = () => {
                             <span className="font-bold text-custom-green">
                                 Last Name:
                             </span>{" "}
-                            <span className="font-medium">{profile.last_name ? profile.last_name : "--"}</span>
+                            <span className="font-medium">
+                                {profile.last_name ? profile.last_name : "--"}
+                            </span>
                         </p>
                         <p>
                             {" "}
                             <span className="font-bold text-custom-green">
                                 Email:
                             </span>{" "}
-                            <span className=" font-medium ">{user.email ? user.email : "--"}</span>
+                            <span className=" font-medium ">
+                                {user.email ? user.email : "--"}
+                            </span>
                         </p>
                         <p>
                             {" "}
                             <span className="font-bold text-custom-green">
                                 Sex:{" "}
                             </span>
-                            <span className="font-medium">{profile.gender ? profile.gender : "--"}</span>
+                            <span className="font-medium">
+                                {profile.gender ? profile.gender : "--"}
+                            </span>
                         </p>
                         <p>
                             {" "}
                             <span className="font-bold text-custom-green">
                                 Phone No:
                             </span>{" "}
-                            <span className="font-medium">{profile.phone_number ? profile.phone_number : "--"}</span>
+                            <span className="font-medium">
+                                {profile.phone_number
+                                    ? profile.phone_number
+                                    : "--"}
+                            </span>
                         </p>
                     </div>
                 </div>

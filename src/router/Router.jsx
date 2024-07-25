@@ -74,11 +74,11 @@ const router = createBrowserRouter([
                 loader: profileLoader
             },
             {
-                path: "application",
+                path: "applications/:type",
                 element: <ApplicationHome />,
             },
             {
-                path: "application/form",
+                path: "applications/:type/form",
                 element: <ApplicationForm />,
             },
             {
