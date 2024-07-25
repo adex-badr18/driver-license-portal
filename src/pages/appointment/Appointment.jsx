@@ -168,7 +168,7 @@ const Appointment = () => {
                     <p className="font-bold text-grey" id="capture-center">
                         {applicationType === "new"
                             ? `FRSC Capture Center, ${contactData.state} State.`
-                            : `FRSC Capture Center, ${profile.state_of_residence}.`}
+                            : `FRSC Capture Center, ${profile.state_of_residence} State.`}
                         {/* {applicationType === "new"
                             ? "Beside FO filling station, Unilag Premise, Lagos Mainland, Lagos."
                             : applicationType === "renewal"
