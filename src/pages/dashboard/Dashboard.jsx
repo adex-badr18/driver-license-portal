@@ -81,7 +81,7 @@ const Dashboard = () => {
                 </div> */}
             </div>
 
-            <div class="mx-auto max-w-2xl py-6 md:py-12 lg:max-w-none">
+            <div className="mx-auto max-w-2xl py-6 md:py-12 lg:max-w-none">
                 {/* <h2 class="text-2xl w-2/3 mx-auto font-bold text-gray-900">Collections</h2> */}
 
                 <div className="flex flex-col md:flex-row w-2/3 mx-auto">

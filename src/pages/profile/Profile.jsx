@@ -52,28 +52,28 @@ const Profile = () => {
     const profile = useLoaderData();
     // const [profile, license] = useLoaderData();
     const [profileDetails, setProfile] = useState({
-        username: user.username,
-        password: user.password,
-        firstname: profile.first_name,
-        surname: profile.last_name,
-        middlename: profile.middle_name,
-        dob: profile.date_of_birth,
-        phone: profile.phone_number,
-        email: user.email,
-        StateofAddress: profile.state_of_residence,
-        lga: profile.local_govt_area,
-        address: profile.street_address,
-        gender: profile.gender,
+        username: user.username || "",
+        password: user.password || "",
+        firstname: profile.first_name || "",
+        surname: profile.last_name || "",
+        middlename: profile.middle_name || "",
+        dob: profile.date_of_birth || "",
+        phone: profile.phone_number || "",
+        email: user.email || "",
+        StateofAddress: profile.state_of_residence || "",
+        lga: profile.local_govt_area || "",
+        address: profile.street_address || "",
+        gender: profile.gender || "",
         licenseId: "--",
         certificateNumber: "--",
-        nin: profile.nin,
+        nin: profile.nin || "",
         joined: "21-12-3034",
         lastRenewal: "--",
         nextRenewal: "--",
-        image: profile.passport_photo,
+        image: profile.passport_photo || "",
     });
 
-    console.log(profile);
+    // console.log(profile);
 
     // console.log({ profileDetails });
 

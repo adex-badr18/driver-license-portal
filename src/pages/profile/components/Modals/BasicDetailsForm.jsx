@@ -30,6 +30,8 @@ const BasicDetailsForm = (props) => {
         surname,
     } = props.formData;
 
+    console.log(props.formData);
+    
     const closeModal = () => setIsOpen(false);
 
     const handleChangeDropdown = (args) => {
@@ -75,7 +77,8 @@ const BasicDetailsForm = (props) => {
             date_of_birth: dob,
             email: email,
             street_address: address,
-            state_of_residence: StateofAddress,
+            // state_of_residence: StateofAddress,
+            state_of_residence: 2,
             local_govt_area: local_govt_area,
             phone_number: phone,
         };

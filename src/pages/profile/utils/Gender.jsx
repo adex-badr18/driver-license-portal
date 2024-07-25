@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Gender = (props) => {
-    const genderArray =["Male","Female"]
+    const genderArray =["male","female"]
     const [dropdown, setDropdown] = useState(false)
     const [value, setValue] = useState(props.value)
     const handleDropdown = (event) => {
@@ -21,7 +21,7 @@ const Gender = (props) => {
         <ul className="w-full left-0 bottom-0 absolute block rounded-md border border-[#e0e0e0] bg-white text-base font-medium text-[#6B7280] outline-none focus:shadow-md
         *:border *:border-custom-grey *:bg-white  dark:text-sky-300 dark:*:border-sky-500/15 dark:*:bg-sky-500/10">
        {genderArray.map((value, index) => ( 
-            <li className="w-full py-3 px-4 text-sm md:text[17px]/[20px]] bg-slate-50 text-center border-2 border-sky-500" key={index} value={value} onClick={handleDropdown}>
+            <li className="w-full py-3 px-4 text-sm md:text[17px]/[20px]] bg-slate-50 text-center border-2 border-sky-500 capitalize" key={index} value={value} onClick={handleDropdown}>
                     {value}
                   </li>)) }
            </ul>
