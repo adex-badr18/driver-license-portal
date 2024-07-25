@@ -33,7 +33,6 @@ const Dashboard = () => {
     const user = auth.user;
 
     console.log(profile);
-    window.scrollTo(0, 100)
 
     return (
         <div className="md:px-10 lg:px-20 max-w-[100vw] overflow-hidden px-4  py-4 pb-20 ">
@@ -53,7 +52,7 @@ const Dashboard = () => {
                     <div>
                         <h1 className="text-2xl md:text-3xl">
                             Hello{" "}
-                            <span className="text-custom-green font-bold">
+                            <span className="text-custom-green font-bold capitalize">
                                 {user.username}
                             </span>{" "}
                         </h1>

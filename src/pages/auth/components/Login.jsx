@@ -51,6 +51,7 @@ export default function Login({ paragraph, linkUrl, linkName }) {
             setAuth(auth);
             sessionStorage.setItem("auth", JSON.stringify(auth));
             setSubmitting(false);
+            window.scrollTo(0, 0);
             navigate('/dashboard');
         }
 
