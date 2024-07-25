@@ -111,7 +111,7 @@ const Dashboard = () => {
                                 License No:
                             </span>{" "}
                             <span className="font-medium">
-                                {license.license_id ? license.license_id : "--"}
+                                {profile.license_id || "--"}
                             </span>
                         </p>
                         <p>
@@ -201,7 +201,7 @@ const Dashboard = () => {
                             <span className="font-bold text-custom-green">
                                 Sex:{" "}
                             </span>
-                            <span className="font-medium">
+                            <span className="font-medium capitalize">
                                 {profile.gender ? profile.gender : "--"}
                             </span>
                         </p>
