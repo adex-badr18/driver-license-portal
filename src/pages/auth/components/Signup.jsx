@@ -120,10 +120,10 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
         );
 
         if (res.status === 201) {
-            setSubmitting(false);
             setIsModalOpen(true);
             clearForm();
         }
+        setSubmitting(false);
 
         console.log(res);
         console.log(res.data);

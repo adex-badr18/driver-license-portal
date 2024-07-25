@@ -11,7 +11,6 @@ const BiodataForm = ({
     setIsSubmitted,
     applicationType,
 }) => {
-    window.scrollTo(0, 200);
     const [errorMessage, setErrorMessage] = useState("");
     const isInvalid = hasEmptyValue(formData);
 
@@ -35,17 +34,17 @@ const BiodataForm = ({
     const submit = (e) => {
         e.preventDefault();
 
-        window.scrollTo(0, 200);
         setErrorMessage("");
-
+        
         // console.log(formData);
 
         if (hasEmptyValue(formData)) {
             setErrorMessage("All fields are required.");
             return;
         }
-
+        
         setIsSubmitted(true);
+        window.scrollTo(0, 200);
         setStep(step + 1);
     };
 

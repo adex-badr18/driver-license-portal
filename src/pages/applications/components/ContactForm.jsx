@@ -10,7 +10,6 @@ const ContactForm = ({
     setStep,
     setIsSubmitted,
 }) => {
-    window.scrollTo(0, 200);
     const [errorMessage, setErrorMessage] = useState("");
     const [state, setState] = useState("");
     const isInvalid = hasEmptyValue(formData);
@@ -28,6 +27,7 @@ const ContactForm = ({
         }
 
         setIsSubmitted(true);
+        window.scrollTo(0, 200);
         setStep(step + 1);
     };
 

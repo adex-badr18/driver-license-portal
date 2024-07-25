@@ -25,6 +25,7 @@ export const loader = async ({ request }) => {
 };
 
 const Dashboard = () => {
+    window.scrollTo(0, 0);
     const data = useLoaderData();
     const { profile, license } = data;
     const { auth } = useAuth();
