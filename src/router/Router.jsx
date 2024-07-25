@@ -8,6 +8,7 @@ import {
 import AuthLayout from "../components/AuthLayout";
 import Root from "../components/Root";
 import ApplicationForm from "../pages/applications/ApplicationForm";
+import { applicationFormLoader } from '../pages/applications/ApplicationForm';
 import ApplicationHome from "../pages/applications/ApplicationHome";
 import Appointment from "../pages/appointment/Appointment";
 import LoginPage from "../pages/auth/login/LoginPage";
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
             {
                 path: "applications/:type/form",
                 element: <ApplicationForm />,
+                loader: applicationFormLoader
             },
             {
                 path: "appointment",

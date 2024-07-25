@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useLoaderData } from "react-router-dom";
 import BiodataForm from "./components/BiodataForm";
 import PaymentForm from "./components/PaymentForm";
 import ContactForm from "./components/ContactForm";
@@ -16,8 +16,19 @@ import {
 } from "react-icons/fa6";
 import SubmissionResponse from "./components/SubmissionResponse";
 import RenewalReissueForm from "./components/RenewalReissueForm";
+import { getProfile } from "../../api";
+import useAuth from "../../hooks/useAuth";
+import { requireAuth } from "../../utils/auth";
+
+export const applicationFormLoader = async ({ request }) => {
+    await requireAuth(request);
+
+    const profile = await getProfile();
+    return profile;
+};
 
 const ApplicationForm = () => {
+    const profile = useLoaderData();
     const { state } = useLocation();
     const params = useParams();
     const { type } = params;
@@ -31,30 +42,31 @@ const ApplicationForm = () => {
         useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [paymentResponse, setPaymentResponse] = useState({});
-
+    const { auth } = useAuth();
     // console.log(type);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     const [biodataForm, setBiodataForm] = useState({
-        first_name: "",
-        last_name: "",
-        middle_name: "",
-        gender: "",
-        mothers_maiden_name: "",
-        date_of_birth: "",
-        passport_photo: "",
-        nin: "",
-        driving_school_certificate_number: "",
-        vehicle_class: ""
+        first_name: profile.first_name || "",
+        last_name: profile.last_name || "",
+        middle_name: profile.middle_name || "",
+        gender: profile.gender || "",
+        mothers_maiden_name: profile.mothers_maiden_name || "",
+        date_of_birth: profile.date_of_birth || "",
+        passport_photo: profile.passport_photo || "",
+        nin: profile.nin || "",
+        driving_school_certificate_number:
+            profile.driving_school_certificate_number || "",
+        vehicle_class: profile.vehicle_type || "",
     });
     const [contactForm, setContactForm] = useState({
-        email: "",
-        phone: "",
-        streetAddress: "",
-        state: "",
-        lga: "",
+        email: auth.user.email || "",
+        phone: profile.phone_number || "",
+        streetAddress: profile.street_address || "",
+        state: profile.state_of_residence || "",
+        lga: profile.local_govt_area || "",
     });
     const [paymentForm, setPaymentForm] = useState({
         cardName: "",
@@ -67,12 +79,12 @@ const ApplicationForm = () => {
     const [renewalReissueForm, setRenewalReissueForm] = useState(
         type === "renewal"
             ? {
-                  email: "",
-                  license_id: "",
+                  email: auth.user.email || "",
+                  license_id: profile.license_id || "",
               }
             : {
-                  email: "",
-                  license_id: "",
+                  email: auth.user.email || "",
+                  license_id: profile.license_id || "",
                   affidavit_police_report: "",
               }
     );
@@ -438,7 +450,7 @@ const ApplicationForm = () => {
                         biodata: biodataForm,
                         contactData: contactForm,
                         applicationType: type,
-                        ref: paymentResponse.reference
+                        ref: paymentResponse.reference,
                     }}
                 />
             </CustomModal>

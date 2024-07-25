@@ -16,7 +16,7 @@ export const loader = async ({ request }) => {
     const auth = JSON.parse(sessionStorage.getItem("auth"));
     // const userId = auth.user.id;
 
-    const profile = getProfile();
+    const profile = await getProfile();
     // const license = getLicense(userId);
 
     // return [profile, license];
