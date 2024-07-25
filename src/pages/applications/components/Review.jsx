@@ -12,7 +12,6 @@ const Review = ({
     openModal,
     applicationType,
 }) => {
-    window.scrollTo(0, 200);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = async (e) => {
@@ -123,6 +122,7 @@ const Review = ({
             openModal();
             setIsSubmitting(false);
         }, 3000);
+        
     };
 
     const goBack = (e) => {

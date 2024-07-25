@@ -20,6 +20,10 @@ const ApplicationHome = () => {
                 : reissueProcedure;
     console.log(state);
 
+    const scrollToTop = () => {
+        window.scrollTo(0, 170);
+    }
+
     return (
         <div className="flex pb-20 flex-col gap-4 md:gap-6">
             <div className="flex flex-col md:flex-row gap-4 md:justify-between items-center px-6 md:px-10 py-4 md:py-6">
@@ -52,6 +56,7 @@ const ApplicationHome = () => {
                     <LinkButton
                         buttonText="Start Application"
                         linkTo="/application/form"
+                        onClick={scrollToTop}
                         state={{ type }}
                         classAttr="self-start py-3 px-8 rounded-full bg-custom-green text-white text-center hover:bg-green-600"
                     />

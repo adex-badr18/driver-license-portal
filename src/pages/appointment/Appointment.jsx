@@ -17,6 +17,7 @@ const Appointment = () => {
     const { auth } = useAuth();
     const { biodata, contactData, applicationType, ref } = state?.responseData;
     const [profile, appointmentData] = useLoaderData();
+    window.scrollTo(0, 160);
 
     const printSlip = () => {
         window.print();
