@@ -65,8 +65,8 @@ const ApplicationForm = () => {
         email: auth.user.email || "",
         phone: profile.phone_number || "",
         streetAddress: profile.street_address || "",
-        state: profile.state_of_residence || "",
-        lga: profile.local_govt_area || "",
+        state: "",
+        lga: "",
     });
     const [paymentForm, setPaymentForm] = useState({
         cardName: "",

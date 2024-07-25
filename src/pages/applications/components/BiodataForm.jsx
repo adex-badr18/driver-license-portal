@@ -24,7 +24,6 @@ const BiodataForm = ({
                 setBiodataForm((prev) => ({
                     ...prev,
                     passport_photo: reader.result,
-                    file
                 }));
             };
             reader.readAsDataURL(file);

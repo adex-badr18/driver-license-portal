@@ -33,7 +33,7 @@ const Dashboard = () => {
     const user = auth.user;
 
     console.log(profile);
-    console.log(license);
+    window.scrollTo(0, 100)
 
     return (
         <div className="md:px-10 lg:px-20 max-w-[100vw] overflow-hidden px-4  py-4 pb-20 ">
