@@ -3,7 +3,7 @@ import { getTomorrowsDate } from "./pages/appointment/utils";
 import axios from "axios";
 
 export const getAppointment = async (id) => {
-    const profile = JSON.parse(sessionStorage.getItem("profile"));
+    const profile = await getProfile();
     const appointmentData = {
         appointment_date: getTomorrowsDate(),
         appointment_time: "10:00 AM",
