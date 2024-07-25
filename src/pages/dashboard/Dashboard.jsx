@@ -31,6 +31,7 @@ const Dashboard = () => {
     const { profile, license } = data;
     const { auth } = useAuth();
     const user = auth.user;
+    window.scrollTo(0, 0);
 
     console.log(profile);
 
