@@ -2,11 +2,10 @@ export const dropdownData = {
     applications: [
         {
             title: "new application",
-            to: "/application",
-            state: { type: "new" },
+            to: "/applications/new",
         },
-        { title: "renewal", to: "/application", state: { type: "renewal" } },
-        { title: "re-Issue", to: "/application", state: { type: "re-issue" } },
+        { title: "renewal", to: "/applications/renewal" },
+        { title: "re-Issue", to: "/applications/reissue" },
     ],
     contact: [
         { title: "support center", to: "/support" },
