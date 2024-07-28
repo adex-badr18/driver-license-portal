@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { loginFields } from "../constants/FormFields";
 import FormAction from "./FormAction";
@@ -6,12 +6,10 @@ import FormExtra from "./FormExtra";
 import Input from "./Input";
 import { Link } from "react-router-dom";
 
-// new-snippet
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import { getProfile } from "../../../api";
-
-// End of new-snippet
+import { toast } from "react-hot-toast";
+import { login } from "../api";
 
 const fields = loginFields;
 let fieldsState = {};
@@ -19,80 +17,47 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Login({ paragraph, linkUrl, linkName }) {
     const [loginState, setLoginState] = useState(fieldsState);
-    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // new-snippet
-    const { auth, setAuth } = useAuth();
+    const { setAuth } = useAuth();
     const navigate = useNavigate();
-    // End of new-snippet
 
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitting(true);
 
-        setTimeout(() => {
-            authenticateUser();
-        }, 2000);
-    };
+        setError("");
+        setIsSubmitting(true);
 
-    //Handle Login API Integration here
-    const authenticateUser = async () => {
-        const email = loginState["email-address"];
-        const password = loginState["password"];
+        const data = {
+            email: loginState["email"],
+            password: loginState["password"],
+        };
+        const loginResponse = await login(data);
 
-        const res = await axios.post("https://saviorte.pythonanywhere.com/api/login/", {email, password});
-
-        if (res.status === 200) {
-            const auth = res.data;
-            setAuth(auth);
-            sessionStorage.setItem("auth", JSON.stringify(auth));
-            setSubmitting(false);
-            window.scrollTo(0, 0);
-            navigate('/dashboard');
+        if (loginResponse.access) {
+            setAuth(loginResponse);
+            sessionStorage.setItem("auth", JSON.stringify(loginResponse));
+            navigate("/dashboard");
+            return;
         }
 
-        // new-snippet
-        // const res = await axios.get(
-        //     `http://localhost:3000/users?email=${email}&password=${password}`,
-        // );
-
-        // if (res.status === 200) {
-        //     const auth = { user: res.data[0] };
-        //     setAuth(auth);
-        //     sessionStorage.setItem("auth", JSON.stringify(auth));
-        //     const profile = await getProfile(auth.user.id);
-        //     sessionStorage.setItem("profile", JSON.stringify(profile));
-        //     setSubmitting(false);
-        //     navigate('/dashboard');
-        // }
-        // console.log(res.status);
-        // if (res.status === 200) {
-        //   const token = res.data.token;
-        //   const fullUserRes = await axios.get('https://dummyjson.com/auth/me', {
-        //     headers: {
-        //       'Authorization': `Bearer ${token}`,
-        //     }
-        //   });
-
-        //   if (fullUserRes.status === 200) {
-        //     sessionStorage.setItem('user', JSON.stringify(fullUserRes.data));
-        //   }
-
-        //   const user = res.data;
-        //   setAuth({ user });
-        //   sessionStorage.setItem('auth', JSON.stringify({ user }));
-        //   navigate('/dashboard');
-        // }
-        // End of new-snippet
+        setIsSubmitting(false);
+        setError("Invalid login details, please try again.");
     };
 
     return (
         <>
             <form className="space-y-6 px-6 py-4" onSubmit={handleSubmit}>
+                {error && (
+                    <p className="bg-red-100 text-red-700 py-2 px-4 rounded-md">
+                        {error}
+                    </p>
+                )}
                 <div className="-space-y-px">
                     {fields.map((field) => (
                         <Input
@@ -112,12 +77,12 @@ export default function Login({ paragraph, linkUrl, linkName }) {
 
                 <FormExtra />
                 <button
-                    type="submit"
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green mt-10"
+                    className="bg-custom-green w-full hover:bg-green-600 px-4 py-2 text-white font-medium rounded-lg mt-4"
                     onSubmit={handleSubmit}
+                    type="submit"
                 >
-                    {submitting ? (
-                        <div className="flex justify-center items-center gap-4">
+                    {isSubmitting ? (
+                        <div className="flex justify-center gap-4">
                             <div className="w-6 h-6 rounded-full animate-spin border-y-4 border-solid border-white border-t-transparent shadow-md"></div>
                             <span>Logging in...</span>
                         </div>
@@ -125,7 +90,6 @@ export default function Login({ paragraph, linkUrl, linkName }) {
                         "Login"
                     )}
                 </button>
-
                 <p className="mt-2 text-center text-sm text-gray-600">
                     {paragraph}{" "}
                     <Link

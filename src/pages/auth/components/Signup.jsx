@@ -1,45 +1,89 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+// import { toast } from 'react-toastify';
 import { signupFields } from "../constants/FormFields";
 import { Link } from "react-router-dom";
 import FormAction from "./FormAction";
-import Input from "./Input";
-import axios from "axios";
-import CustomModal from "../../applications/components/CustomModal";
+import Modal from "../../../components/Modal";
 import SignUpResponse from "./SignUpResponse";
+import Input from "./Input";
+import { createAccount } from "../api";
 
 const fields = signupFields;
 let fieldsState = {};
+
+const PWD_REGEX =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%*&_-])[A-Za-z\d!@#$%*&_-]{8,24}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup({ paragraph, linkUrl, linkName }) {
     const [signupState, setSignupState] = useState(fieldsState);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [error, setError] = useState("");
+    const [registeredEmail, setRegisteredEmail] = useState("");
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+    const navigate = useNavigate();
+    const { username, email, password, confirm_password } = signupState;
+
+    useEffect(() => {
+        const emailTest = EMAIL_REGEX.test(email);
+        setIsEmailValid(emailTest);
+    }, [email]);
+
+    useEffect(() => {
+        const passwordTest = PWD_REGEX.test(password);
+        setIsPasswordValid(passwordTest);
+    }, [password, confirm_password]);
+
+    useEffect(() => {
+        const matchTest = password === confirm_password;
+        setIsPasswordMatch(matchTest);
+    }, [password, confirm_password]);
 
     const handleChange = (e) =>
         setSignupState({ ...signupState, [e.target.id]: e.target.value });
 
-    const handleSubmit = (e) => {
+    const clearForm = () => {
+        setSignupState({
+            email: "",
+            username: "",
+            password: "",
+            confirm_password: "",
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setSubmitting(true);
-        setTimeout(() => {
-            createAccount();
-        }, 2000);
-        // setSubmitting(false);
-    };
+        setError("");
+        setIsSubmitting(true);
 
-    const clearForm = () => {
-        signupState.email = "";
-        signupState.username = "";
-        signupState.password = "";
-        signupState.confirm_password = "";
-    };
+        if (!isEmailValid) {
+            setError("Invalid email address!");
+            setIsSubmitting(false);
+            return;
+        }
 
-    //handle Signup API Integration here
-    const createAccount = async () => {
-        const { username, email, password, confirm_password } = signupState;
+        if (!isPasswordMatch) {
+            setError("Passwords do not match!");
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (!isPasswordValid) {
+            setError(
+                "Invalid password! Password must contain the following: 8-24 characters; at least 1 capital letter; at least 1 digit; at least 1 special character; Allowed characters are !@#$%*&_-"
+            );
+            setIsSubmitting(false);
+            return;
+        }
+
         const data = {
             username,
             email,
@@ -47,90 +91,32 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
             confirm_password,
         };
 
-        // try {
-        //     const res = await axios.post("http://localhost:3000/users", data);
+        const signupResponse = await createAccount(data);
 
-        //     if (res.status === 201) {
-        //         // console.log(res.data);
-        //         const user = res.data;
-
-        //         const reqBody = {
-        //             id: user.id,
-        //             userId: user.id,
-        //             first_name: "",
-        //             last_name: "",
-        //             middle_name: "",
-        //             gender: "",
-        //             date_of_birth: "",
-        //             nin: "",
-        //             street_address: "",
-        //             state_of_residence: "",
-        //             local_govt_area: "",
-        //             mothers_maiden_name: "",
-        //             phone_number: "",
-        //             passport_photo: "",
-        //         };
-        //         const createProfile = await axios.post(
-        //             "http://localhost:3000/profiles",
-        //             reqBody
-        //         );
-
-        //         if (createProfile.status === 201) {
-        //             // console.log(createProfile.data);
-        //             const profile = createProfile.data;
-
-        //             const licenseData = {
-        //                 id: profile.userId,
-        //                 userId: profile.userId,
-        //                 license_id: "",
-        //                 vehicle_type: "",
-        //                 license_class: "",
-        //                 date_of_issue: "",
-        //                 date_of_expiry: "",
-        //                 country_of_issue: "",
-        //             };
-
-        //             const licenseRes = await axios.post(
-        //                 "http://localhost:3000/licenses",
-        //                 licenseData
-        //             );
-
-        //             if (licenseRes.status === 201) {
-        //                 setSubmitting(false);
-        //                 setIsModalOpen(true);
-        //                 clearForm();
-        //             }
-
-        //         } else {
-        //             console.log(createProfile);
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
-        const res = await axios.post(
-            "https://saviorte.pythonanywhere.com/api/signup/",
-            data,
-            // {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            // }
-        );
-
-        if (res.status === 201) {
-            setIsModalOpen(true);
+        if (signupResponse.id) {
+            setIsSubmitting(false);
+            setRegisteredEmail(signupResponse.email);
+            setIsOpen(true);
             clearForm();
-        }
-        setSubmitting(false);
+            console.log(signupResponse);
 
-        console.log(res);
-        console.log(res.data);
+            setTimeout(() => {
+                navigate("/login");
+            }, 5000);
+            return;
+        }
+
+        setIsSubmitting(false);
+        setError("Something went wrong! Please try again.");
     };
 
     return (
         <form className="space-y-6 p-6" onSubmit={handleSubmit}>
+            {error && (
+                <p className="bg-red-100 text-red-700 py-2 px-4 rounded-md">
+                    {error}
+                </p>
+            )}
             <div className="">
                 {fields.map((field) => (
                     <Input
@@ -144,25 +130,27 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
                         type={field.type}
                         isRequired={field.isRequired}
                         placeholder={field.placeholder}
+                        isPasswordValid={isPasswordValid}
+                        isPasswordMatch={isPasswordMatch}
+                        isEmailValid={isEmailValid}
                     />
                 ))}
-
                 <button
-                    type="submit"
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green mt-10"
+                    className="bg-custom-green w-full hover:bg-green-800 px-4 py-2 text-white font-medium rounded-lg mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
                     onSubmit={handleSubmit}
+                    type="submit"
+                    disabled={!isPasswordValid || !isPasswordMatch || !username || !isEmailValid}
                 >
-                    {submitting ? (
-                        <div className="flex justify-center items-center gap-4">
+                    {isSubmitting ? (
+                        <div className="flex justify-center gap-4">
                             <div className="w-6 h-6 rounded-full animate-spin border-y-4 border-solid border-white border-t-transparent shadow-md"></div>
-                            <span>Creating...</span>
+                            <span>Creating account...</span>
                         </div>
                     ) : (
                         "Create Account"
                     )}
                 </button>
             </div>
-
             <p className="mt-2 text-center text-sm text-gray-600">
                 {paragraph}{" "}
                 <Link
@@ -173,9 +161,12 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
                 </Link>
             </p>
 
-            <CustomModal isOpen={isModalOpen}>
-                <SignUpResponse setIsModalOpen={setIsModalOpen} />
-            </CustomModal>
+            <Modal isOpen={isOpen}>
+                <SignUpResponse
+                    setIsModalOpen={setIsOpen}
+                    email={registeredEmail}
+                />
+            </Modal>
         </form>
     );
 }

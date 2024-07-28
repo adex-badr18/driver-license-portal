@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import icon from "../../../assets/images/business.png"
 
 export default function LoginHeader({
     heading,
@@ -14,7 +13,7 @@ export default function LoginHeader({
                 <img
                     alt=""
                     className="h-14 w-14"
-                    src={icon}
+                    src="./src/assets/images/business.png"
                 />
             </div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

@@ -28,7 +28,7 @@ const Footer = () => {
                     <ul className="grid gap-2">
                         <li>
                             <Link
-                                to={"/application"}
+                                to={"/applications/new"}
                                 state={"new"}
                                 className="flex font-semibold hover:text-green-600 hover:translate-x-2 transition-all duration-200 text-gray-50 gap-2"
                             >
@@ -38,7 +38,7 @@ const Footer = () => {
 
                         <li>
                             <Link
-                                to={"/application"}
+                                to={"/applications/renewal"}
                                 state="renewal"
                                 className="flex font-semibold hover:translate-x-2 transition-all duration-200 hover:text-green-600 text-gray-50 gap-2"
                             >
@@ -63,7 +63,7 @@ const Footer = () => {
                         </li>
                         <li>
                             <Link
-                                to={"appointment"}
+                                to={"/appointment"}
                                 className="flex font-semibold hover:text-green-600 hover:translate-x-2 transition-all duration-200 text-gray-100 gap-2"
                             >
                                 Appointment Slip

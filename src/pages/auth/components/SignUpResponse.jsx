@@ -2,11 +2,11 @@ import React from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { IoCloseSharp } from "react-icons/io5";
 
-const SignUpResponse = ({setIsModalOpen}) => {
+const SignUpResponse = ({ setIsModalOpen, email }) => {
     const closeModal = () => setIsModalOpen(false);
 
     return (
-        <div className="flex flex-col gap-5 p-6">
+        <div className="flex flex-col gap-5">
             <div className="absolute top-6 right-6 text-2xl text-grey cursor-pointer">
                 <IoCloseSharp onClick={closeModal} className="font-semibold" />
             </div>
@@ -20,10 +20,11 @@ const SignUpResponse = ({setIsModalOpen}) => {
                 <h3 className="text-lg font-bold mb-5">
                     Your account has been successfully created.
                 </h3>
-                <p className="">
-                    A verification link has been sent to your email, kindly click
+                <p className="text-center">
+                    A verification link has been sent to{" "}
+                    <span className="font-bold">{email}</span>, kindly click on {" "}
+                    it to complete your registration. Thank you!
                 </p>
-                <p className="">on it to complete your registration. Thank you!</p>
             </div>
         </div>
     );

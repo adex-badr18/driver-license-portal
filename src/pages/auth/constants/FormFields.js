@@ -2,7 +2,7 @@ const loginFields = [
   {
     labelText: 'Email address',
     labelFor: 'email-address',
-    id: 'email-address',
+    id: 'email',
     name: 'email',
     type: 'text',
     autoComplete: 'email',
@@ -58,7 +58,7 @@ const signupFields = [
     id: 'confirm_password',
     name: 'confirm_password',
     type: 'password',
-    autoComplete: 'confirm_password',
+    autoComplete: 'confirm-password',
     isRequired: true,
     placeholder: 'Confirm Password',
   },
