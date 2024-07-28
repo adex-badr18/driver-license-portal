@@ -15,7 +15,7 @@ const DesktopMenu = ({ dropdownState, contactState, dropdownData, auth }) => {
         <div className="container mx-auto flex justify-center items-center">
             <div className="hidden md:flex items-center">
                 <Link
-                    to={"/"}
+                    to={!auth ? "/" : "/dashboard"}
                     className="text-white px-6 py-4 hover:bg-green-700 transition-colors"
                 >
                     Home
