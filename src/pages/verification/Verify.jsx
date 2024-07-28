@@ -1,23 +1,23 @@
 import StepBox from "./components/StepBox"
-import handcard from "../../assets/hand-card.webp"
-import { useRef, useState } from "react";
-
+import verifiedLicense from "../../assets/verified-license.svg"
+import { useEffect, useRef, useState } from "react";
 import VerificationFailed from "./components/VerificationFailed"
 import VerificationSuccess from "./components/VerificationSuccess"
-import Button from "../../components/utils/Button";
-import axios from "axios";
-
+import VerificationInvalid from "./components/VerificationInvalid";
+import axios from 'axios';
+import Spinner from "./components/SpinningPopup";
 
 
 const Verify = () => {
     window.scrollTo(0, 0)
     const IDinput = useRef()
-
     const [Popup, SetPopup] = useState(false)
-    const [Message, SetMessage] = useState()
+    const [Message, SetMessage] = useState("")
+    const [value, setValue] = useState("")
+    const [errMsg, setErrMsg] = useState("")
 
 
-    let dummyId = "IDL1234567890"
+
 
     const closePopup = () => {
         SetPopup(false)
@@ -26,72 +26,104 @@ const Verify = () => {
         console.log(Popup)
     }
 
-    const verifyID = async () => {
-        console.log(IDinput.current.value)
-        SetPopup(true);
+    useEffect(() => {
+        setErrMsg("")
+    }, [value])
 
-        // Consume Endpoint
-        const licenseId = IDinput.current.value;
-        try {
-            const res = await axios.get(`https://saviorte.pythonanywhere.com/api/licenses/${licenseId}/`);
-            
-            if (res.status === 200) console.log(res.data);
-        } catch (error) {
-            console.log(error.response.data);
-        }
-        // End
 
-        if (!Popup) {
-            document.querySelector("body").classList.add("h-screen")
-            document.querySelector("body").classList.add("overflow-hidden")
+    const VerifyLicense = async (e) => {
+        e.preventDefault()
 
-            if (IDinput.current.value === dummyId) {
-                SetMessage(
-                    <VerificationSuccess
-                        BtnFunction={closePopup}
-                    />
-                )
-            } else {
-                SetMessage(
-                    <VerificationFailed
-                        BtnFunction={closePopup}
-                    />
-                )
+        if (value) {
+
+            SetPopup(true)
+            SetMessage(<Spinner>hello</Spinner>)
+
+            try {
+                const response = await axios.get(`https://saviorte.pythonanywhere.com/api/licenses/${value}`,)
+                const data = await response.data
+                console.log(data)
+
+                if (response.status === 200) {
+                    SetMessage(
+                        <VerificationSuccess
+                            BtnFunction={closePopup}
+                            details={data.details}
+                            licenseID={data.licenseId}
+                            expires={data.expiry_date}
+                            issued={data.issue_date}
+                            status={data.status}
+                        />
+                    )
+                }
             }
+            catch (err) {
+                console.log(err.response)
+                if (err.message === 'Network Error') {
+                    SetPopup(true)
+                    SetMessage(
+                        <VerificationFailed
+                            BtnFunction={closePopup}
+                            errMsg={"You currently are not connected to the internet, Please check internet connection and try again"}
+                        />
+                    )
+                }
+                else if (err.response.status === 404) {
+                    SetPopup(true)
+                    SetMessage(
+                        <VerificationInvalid
+                            BtnFunction={closePopup}
+                            details={err.response.data.details}
+                            licenseID={err.response.data.licenseId}
+                            status={err.response.data.status}
+
+                        />
+
+                    )
+                }
+            }
+
+        } else {
+
+            setErrMsg("This field is required")
         }
+
 
     }
 
 
     return (
-        <div className="p-4 md:px-20 h-full md:py-16 ">
+        <div className="p-4 md:px-10 xl:p-20 h-full md:py-16 ">
+
+
             <div >
 
-                <div className="grid gap-10 items-center justify-center md:flex">
+                <div className="grid gap-10 items-center justify-center lg:flex">
                     <div className="w-full">
                         <h1 className=" text-3xl md:text-5xl text-custom-green font-bold mb-8 md:mb-16">Verify License</h1>
 
                         <p className="text-justify">Securely verify your identity or someone else's with our driver's license verification service. This quick and easy process uses secure technology to protect your information. Get started today and streamline your verification needs.</p>
                         <p>Sample ID: IDL1234567890 </p>
 
-                        <div className="mt-10">
-                            <label className="mb-[2px] block text-base font-medium text-neutral-700">License ID <span className="text-red-500">*</span></label>
-                            <input ref={IDinput} className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" type="text" placeholder="Enter License ID to be verified" />
-                        </div>
+                        <form>
 
-                        <div className="mt-5 grid place-content-end">
-                            <div className="m-4 grid place-content-end">
-                                <Button BtnFunction={verifyID}>
-                                    Submit
-                                </Button>
+                            <label className=" w-full mt-6 flex shadow-[2px_5px_10px_rgba(0,0,0,0.1)] border border-gray-50  rounded-full">
+                                <input onChange={(e) => { setValue(e.target.value) }} ref={IDinput} placeholder="Enter License ID" className='bg-transparent py-4 pl-6 pr-2 text-black w-full rounded-xl md:rounded-none  border-customr-grey outline-0' />
+                                <button onClick={VerifyLicense} className="bg-custom-green px-8 text-white    rounded-full">Submit</button>
+
+                            </label>
+                            <span className="text-red-500 px-4 h-4 text-sm block mt-1">{errMsg}</span>
 
 
-                            </div>
-                        </div>
+
+                        </form>
+
+
+
                     </div>
 
-                    <div className="w-full">
-                        <img className="w-full" src={handcard} alt="" />
+                    <div className="w-full md:grid place-content-center">
+                        <img className=" p-4 h-[25rem] w-[25rem] block object-contain aspect-square shadow-[5px_2px_10px_rgba(0,0,0,0.1)]  rounded-full " src={verifiedLicense} alt="" />
                     </div>
 
 
@@ -105,7 +137,7 @@ const Verify = () => {
                     <div className="grid  md:grid-cols-2 gap-8 mt-14 ">
                         <StepBox
                             head={<>Get Started</>}
-                            message={"Click on the get input field above to begin your verification process"}
+                            message={"Click on input field above to begin your verification process"}
                             count={"1"}
                         />
                         <StepBox
@@ -121,7 +153,7 @@ const Verify = () => {
                         />
                         <StepBox
                             head={"Instant Results"}
-                            message={"You should recieve a clear and concise response with seconds stating the validity of your license"}
+                            message={"You should recieve a clear and concise response within seconds stating the validity of your license"}
                             count={"4"}
                         />
 

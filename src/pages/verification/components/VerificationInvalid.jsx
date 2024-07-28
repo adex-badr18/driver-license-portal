@@ -1,18 +1,20 @@
-import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { FaXmark } from "react-icons/fa6";
 
 
-
-
-const VerifcationSuccess = ({ BtnFunction, licenseID, expires, issued, details, status }) => {
+const VerificationInvalid = ({ BtnFunction, licenseID, expires, issued, details, status }) => {
     return (
         <div className="fixed  top-0 left-0 w-full h-full bg-black/50 grid place-content-center">
 
-            <div className="bg-white rounded-xl w-[25rem] p-6">
-                <div className="grid gap-4  mb-4 justify-items-center">
-                    <IoCheckmarkDoneCircle className="text-7xl text-green-700" />
+            <div className="bg-white pt-6 rounded-xl w-[25rem] p-4">
+                <div className="border mx-auto rounded-full w-fit bg-red-600 p-2">
+                    <FaXmark className="text-4xl text-white" />
+
                 </div>
-                <h1 className="text-center font-semibold text-lg"> Driving License Check Verification <br />
-                    Successfully Completed</h1>
+
+
+
+                <h1 className="text-center  mt-2 font-semibold text-lg"> Invalid Drivers License
+                </h1>
 
 
 
@@ -20,8 +22,7 @@ const VerifcationSuccess = ({ BtnFunction, licenseID, expires, issued, details, 
                     <h2 className="font-bold">Details</h2>
                     <ul className="grid gap-3 mt-3">
                         <li><span className="text-gray-400">Details: </span>{details}</li>
-                        <li><span className="text-gray-400">Issue Date: </span>{issued}</li>
-                        <li><span className="text-gray-400">Expiry Date: </span>{expires}</li>
+
 
                         <li><span className="text-gray-400">license ID: </span>{licenseID}</li>
                         <li><span className="text-gray-400">license Status: </span>{status}</li>
@@ -38,4 +39,4 @@ const VerifcationSuccess = ({ BtnFunction, licenseID, expires, issued, details, 
     )
 }
 
-export default VerifcationSuccess
+export default VerificationInvalid
