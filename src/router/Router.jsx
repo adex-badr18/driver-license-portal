@@ -21,7 +21,6 @@ import Support from "../pages/support/Support";
 import Verify from "../pages/verification/Verify";
 import { loader as appointmentLoader } from "../pages/appointment/Appointment";
 import Dashboard from "../pages/dashboard/Dashboard"
-import { loader as dashboardLoader } from '../pages/dashboard/Dashboard';
 import CaptureCenter from "../pages/capture_center/CaptureCenter";
 
 const router = createBrowserRouter([
@@ -66,8 +65,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "dashboard",
-                element: <Dashboard />,
-                loader: dashboardLoader
+                element: <Dashboard />
             },
             {
                 path: "profile",

@@ -1,268 +1,137 @@
 import { FaUserAlt } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import { FaUser } from "react-icons/fa";
 import { requireAuth } from "../../utils/auth";
-
+import { getProfile } from "../../api";
 import { useLoaderData } from "react-router-dom";
-import { getLicense, getProfile } from "../../api";
-import { applicationCardData } from "./data";
 
 import Button from "../../components/utils/Button";
-import axios from "axios";
-import ApplicationCard from "./components/ApplicationCard";
+import { GrCertificate } from "react-icons/gr";
+import { MdEditDocument } from "react-icons/md";
+import { IoDocuments } from "react-icons/io5";
+import { GrDocumentVerified } from "react-icons/gr";
+import { TbCapture } from "react-icons/tb";
+import { MdOutlineDriveEta } from "react-icons/md";
+import { RiCustomerService2Line } from "react-icons/ri";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
+import { FaPaypal } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-export const loader = async ({ request }) => {
+export const dashboardLoader = async ({ request }) => {
     await requireAuth(request);
 
-    const auth = JSON.parse(sessionStorage.getItem("auth"));
-    const userId = auth.user.id;
-
-    try {
-        const profile = await getProfile(userId);
-        const license = await getLicense(userId);
-
-        return { profile, license };
-    } catch (error) {
-        return error;
-    }
-};
-
-const Dashboard = () => {
-    const data = useLoaderData();
-    const { profile, license } = data;
-    const { auth } = useAuth();
-    const user = auth.user;
-    window.scrollTo(0, 0);
+    const profile = await getProfile();
 
     console.log(profile);
 
+    return profile;
+};
+
+const Dashboard = () => {
+    const { auth } = useAuth();
+
+    console.log(auth.user);
+
+    let style;
+
     return (
-        <div className="md:px-10 lg:px-20 max-w-[100vw] overflow-hidden px-4  py-4 pb-20 ">
+        <div className="md:px-10 xl:px-20 max-w-[100vw] overflow-hidden px-4  py-4 pb-20 ">
             <div>
                 <div className=" flex md:py-4 gap-3 items-center">
-                    <div className="w-fit border h-fit p-1 rounded-full ">
-                        {!profile.passport_photo ? (
-                            <FaUserAlt className="text-4xl" />
+                    <div className=" ">
+                        {!auth.user?.image ? (
+                            <FaUserAlt className="text-8xl p-1 border rounded-full" />
                         ) : (
                             <img
-                                className="h-16 md:h-20 rounded-full"
-                                src={profile.passport_photo}
+                                className="h-16 rounded-full"
+                                src={auth.user?.image}
                                 alt=""
                             />
                         )}
                     </div>
                     <div>
-                        <h1 className="text-2xl md:text-3xl">
+                        <h1 className="text-2xl md:text-2xl">
                             Hello{" "}
                             <span className="text-custom-green font-bold capitalize">
-                                {user.username}
+                                {auth.user?.username}
                             </span>{" "}
                         </h1>
-                        <h1 className="text-xl">Welcome Back!</h1>
+                        <p>Welcome Back!</p>
                     </div>
-                </div>
-
-                {/* <div className="flex gap-3">
-                    <div className="grid">
-                        <div className="inline-block bg-custom-green h-10 w-40">
-                            
-                        </div>
-                        <div className="inline-block bg-green-100 h-20 w-40">
-
-                        </div>
-                    </div>
-                    <div className="grid">
-                        <div className="inline-block bg-custom-green h-10 w-40">
-
-                        </div>
-                        <div className="inline-block bg-green-100 h-20 w-40">
-
-                        </div>
-                    </div>
-                </div> */}
-            </div>
-
-            <div className="mx-auto max-w-2xl py-6 md:py-12 lg:max-w-none">
-                {/* <h2 class="text-2xl w-2/3 mx-auto font-bold text-gray-900">Collections</h2> */}
-
-                <div className="flex flex-col md:flex-row w-2/3 mx-auto">
-                    {applicationCardData.map((cardData) => (
-                        <ApplicationCard
-                            key={cardData.id}
-                            icon={cardData.icon}
-                            applicationType={cardData.applicationType}
-                            linkTo={cardData.linkTo}
-                        />
-                    ))}
                 </div>
             </div>
 
-            <div className=" md:grid mt-4 md:grid-cols-2 md:gap-10 gap-4 items-start ">
-                <div className="border h-fit rounded-lg  p-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-xl font-semibold">
-                            Drivers License Details
-                        </h1>
-                    </div>
+            <div className="grid w-full my-10 gap-4 grid-cols-2  lg:grid-cols-4 md:grid-cols-3">
+                <Link
+                    to={"/profile"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 bg-green-100   duration-300  rounded-lg grid gap-2 place-items-center place-content-center text-custom-green  p-4 h-[10rem] text-center"
+                >
+                    <FaUser className="text-6xl" />
+                    <h3 className=" font-bold">Profile</h3>
+                </Link>
 
-                    <div className="border grid  gap-2 p-4 rounded-xl">
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                License No:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {profile.license_id || "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                License Class:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {license.license_class
-                                    ? license.license_class
-                                    : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Country of Issue:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {license.country_of_issue
-                                    ? license.country_of_issue
-                                    : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Date of Issue:{" "}
-                            </span>
-                            <span className="font-medium">
-                                {license.date_of_issue
-                                    ? license.date_of_issue
-                                    : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Date of Expiration:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {license.date_of_expiry
-                                    ? license.date_of_expiry
-                                    : "--"}
-                            </span>
-                        </p>
-                    </div>
-                </div>
+                <Link
+                    to="/applications/new"
+                    className="hover:scale-105 transition-all hover:-translate-y-2 bg-white rounded-lg grid gap-2  shadow-[0_0_10px_rgba(0,0,0,0.1)] place-items-center place-content-center p-4 h-[10rem] text-center"
+                >
+                    <GrCertificate className="text-6xl" />
+                    <h3 className=" font-bold">New Application</h3>
+                </Link>
 
-                <div className="border mt-4 md:mt-0 h-fit rounded-lg  p-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-xl font-semibold">
-                            {" "}
-                            Drivers Information
-                        </h1>
-                    </div>
-                    <div className="border grid truncate overflow-clip gap-2 p-4 text-wrap rounded-xl">
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                First Name:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {profile.first_name ? profile.first_name : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Last Name:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {profile.last_name ? profile.last_name : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Email:
-                            </span>{" "}
-                            <span className=" font-medium ">
-                                {user.email ? user.email : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Sex:{" "}
-                            </span>
-                            <span className="font-medium capitalize">
-                                {profile.gender ? profile.gender : "--"}
-                            </span>
-                        </p>
-                        <p>
-                            {" "}
-                            <span className="font-bold text-custom-green">
-                                Phone No:
-                            </span>{" "}
-                            <span className="font-medium">
-                                {profile.phone_number
-                                    ? profile.phone_number
-                                    : "--"}
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div className="mt-8">
-                <h1 className="font-bold text-2xl mb-6">Transaction History</h1>
-                <div className="max-w-[100vw] overflow-x-hidden">
-                    <table className="w-full ">
-                        <tr className="bg-custom-green h-10 border-collapse text-white">
-                            <th className="p-2 w-16">S/N</th>
-                            <th className="p-2 border-x">
-                                Transaction Applied
-                            </th>
-                            <th className="p-2  border-x">Reference No</th>
-                            <th className="p-2 ">Status</th>
-                        </tr>
+                <Link
+                    to={"/applications/renewal"}
+                    className=" hover:scale-105 transition-all hover:-translate-y-2  shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg grid gap-2 place-items-center place-content-center  p-4 h-[10rem] text-center md:bg-green-100 md:text-custom-green md:shadow-none"
+                >
+                    <MdEditDocument className="text-6xl" />
+                    <h3 className=" font-bold">Renewal</h3>
+                </Link>
 
-                        <tr>
-                            <td className="p-2 text-center">1</td>
-                            <td className="p-2  border-x">License Renewal</td>
-                            <td className="p-2  border-x">12345</td>
-                            <td className="p-2  ">Success</td>
-                        </tr>
-                        <tr className="bg-green-100">
-                            <td className="p-2 text-center">2</td>
-                            <td className="p-2 border-x">License Renewal</td>
-                            <td className="p-2 border-x">12345</td>
-                            <td className="p-2 text-red-500">Failed</td>
-                        </tr>
+                <Link
+                    to={"/applications/reissue"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 bg-green-100 text-custom-green md:shadow-[0_0_10px_rgba(0,0,0,0.1)] md:bg-white md:text-black rounded-lg grid gap-2 place-items-center place-content-center  p-4 h-[10rem] text-center"
+                >
+                    <IoDocuments className="text-6xl" />
+                    <h3 className=" font-bold">Reissue</h3>
+                </Link>
 
-                        <tr>
-                            <td className="p-2 text-center">3</td>
-                            <td className="p-2 border-x">License Renewal</td>
-                            <td className="p-2 border-x">12345</td>
-                            <td className="p-2 text-orange-500">Pending</td>
-                        </tr>
+                <Link
+                    to={"/verify-license"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 lg:bg-white lg:text-black md:shadow-none lg:shadow-[0_0_10px_rgba(0,0,0,0.1)] bg-green-100 rounded-lg grid gap-2 place-items-center place-content-center text-custom-green  p-4 h-[10rem] text-center"
+                >
+                    <HiOutlineDocumentDuplicate className="text-6xl" />
+                    <h3 className=" font-bold">License Verification</h3>
+                </Link>
 
-                        <tr className="bg-green-100">
-                            <td className="p-2 text-center">4</td>
-                            <td className="p-2 border-x">License Renewal</td>
-                            <td className="p-2 border-x">12345</td>
-                            <td className="p-2">Success</td>
-                        </tr>
-                    </table>
-                </div>
-                <div className="mt-10 grid place-content-end">
-                    <Button btnLink={"/profile"}>View Transactions</Button>
-                </div>
+                <Link
+                    to={""}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 lg:bg-green-100 lg:text-custom-green lg:shadow-none shadow-[0_0_10px_rgba(0,0,0,0.1)] rounded-lg grid gap-2 place-items-center place-content-center  p-4 h-[10rem] text-center"
+                >
+                    <GrDocumentVerified className="text-6xl" />
+                    <h3 className=" font-bold">Appointment Slip</h3>
+                </Link>
+
+                <Link
+                    to={"/capture-centers"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 md:bg-green-100  shadow-[0_0_10px_rgba(0,0,0,0.1)] md:shadow-none rounded-lg grid gap-2 place-items-center place-content-center md:text-custom-green lg:bg-white lg:text-black lg:shadow-[0_0_10px_rgba(0,0,0,0.1)] p-4 h-[10rem] text-center"
+                >
+                    <BsClipboard2CheckFill className="text-6xl" />
+                    <h3 className=" font-bold">Capture Centers</h3>
+                </Link>
+                <Link
+                    to={"/driving-schools"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 bg-green-100 text-custom-green md:shadow-[0_0_10px_rgba(0,0,0,0.1)] md:bg-white md:text-black rounded-lg grid gap-2 place-items-center place-content-center lg:shadow-none lg:bg-green-100 lg:text-custom-green p-4 h-[10rem] text-center"
+                >
+                    <TbCapture className="text-6xl" />
+                    <h3 className=" font-bold">Driving Schools</h3>
+                </Link>
+                <Link
+                    to={"/support"}
+                    className="hover:scale-105 transition-all hover:-translate-y-2 bg-green-100 rounded-lg grid gap-2 place-items-center place-content-center text-custom-green  p-4 h-[10rem] text-center"
+                >
+                    <MdOutlineDriveEta className="text-6xl" />
+                    <h3 className=" font-bold">Support</h3>
+                </Link>
             </div>
         </div>
     );
