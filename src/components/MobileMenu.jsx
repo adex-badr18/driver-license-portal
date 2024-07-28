@@ -1,10 +1,9 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LinkButton from "./LinkButton";
 import DropDownButton from "./DropDownButton";
 import DropDownMenu from "./DropdownMenu";
 import coatOfArm from "../assets/coatOfArm.png";
-import logo from "../assets/images/dannon-logo2.png";
+import logo from "../assets/Logo.svg";
 import { MdClose } from "react-icons/md";
 // import useAuth from "../hooks/useAuth";
 // import { dropdownData } from "./utils/data";
@@ -44,16 +43,11 @@ const MobileMenu = ({ menuState, dropdownState, contactState, dropdownData, setA
                     alt="Coat of Arm"
                     className="w-12 h-auto pr-3"
                 />
-                <div className="border-l pl-3 grid place-content-center border-green-700">
-                    <img
-                        src={logo}
-                        alt="Dannon Group Logo"
-                        className="w-40 h-auto pl-3"
-                    />
-                    <span className="text-[9.4px] tracking-normal text-custom-green uppercase font-bold -mt-[6px] ml-4">
-                        Instant Drivers License
-                    </span>
-                </div>
+                <img
+                    src={logo}
+                    alt="Dannon Group Logo"
+                    className="w-40 h-auto pl-3"
+                />
             </div>
 
             <div className="flex flex-col h-full px-6 py-4 mt-20 divide-y divide-solid bg-grey divide-neutral-600">
