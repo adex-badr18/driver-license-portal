@@ -13,7 +13,7 @@ const Support = () => {
     const [Message, SetMessage] = useState()
 
     return (
-        <div className='p-4 pb-20 md:px-10 lg:px-20'>
+        <div className='p-4 pb-20 w-[100vw] md:px-10 lg:px-20'>
             <SupportHero />
             <SupportForm
                 BtnFunction={() => { SetPopup(true) }}

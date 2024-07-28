@@ -4,7 +4,7 @@ import envelop from "../../../assets/envelop.svg"
 
 const SupportHero = () => {
     return (
-        <div className=" mb-8 grid gap-8 md:flex items-center ">
+        <div className=" mb-8 grid gap-8 md:flex md:my-4 items-center ">
             <div className="w-full">
                 <h1 className="text-custom-green text-3xl md:text-6xl font-bold mb-4 md:mb-10  lg:mb-20">Support</h1>
                 <p className="md:text-base/8 text-sm text-justify">Don't hesitate to reach out to our friendly customer support team. They are happy to assist you with any questions or challenge you may encounter on this platform. you can reach out to us via the channels below</p>
@@ -21,9 +21,9 @@ const SupportHero = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full md:grid place-content-end">
+            <div className="w-full grid place-content-center">
 
-                <img className="w-full  rounded-lg  object-cover" src={customercare} alt="" />
+                <img className="w-fit p-4 shadow-[5px_2px_10px_rgba(0,0,0,0.1)] rounded-full max-h-[20rem] md:max-h-[30rem]  object-contain" src={customercare} alt="" />
             </div>
 
 
