@@ -5,7 +5,7 @@ export const dropdownData = {
             to: "/applications/new",
         },
         { title: "renewal", to: "/applications/renewal" },
-        { title: "re-Issue", to: "/applications/reissue" },
+        { title: "reissue", to: "/applications/reissue" },
     ],
     contact: [
         { title: "support center", to: "/support" },
