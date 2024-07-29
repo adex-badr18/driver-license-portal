@@ -98,7 +98,7 @@ const RenewalReissueForm = ({
                             />
                         </div>
 
-                        {applicationType === "re-issue" && (
+                        {applicationType === "reissue" && (
                             <div className="">
                                 <label
                                     htmlFor="affidavit_police_report"

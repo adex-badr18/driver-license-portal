@@ -34,7 +34,7 @@ const ApplicationHome = () => {
                         ? "New Driver's License Application"
                         : type === "renewal"
                             ? "Online Driver's License Renewal"
-                            : "Driver's License Replacement/Re-Issue"}
+                            : "Driver's License Replacement/Reissue"}
                 </h1>
 
                 <img

@@ -136,7 +136,7 @@ const ApplicationForm = () => {
                     ? "New Driver's License Application"
                     : type === "renewal"
                     ? "Online Driver's License Renewal"
-                    : "Driver's License Replacement/Re-Issue"}
+                    : "Driver's License Replacement/Reissue"}
             </h1>
             <div className="flex flex-col md:flex-row justify-between md:items-start gap-10">
                 <div className="multistep-form-container flex-1">
