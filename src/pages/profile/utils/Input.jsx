@@ -12,8 +12,6 @@ const Input = (props) => {
                      bg-slate-50
                      border border-green-500 
                      text-green-900 text-sm md:text-[17px]/[20px]
-
-                     dark:text-green-400 dark:placeholder-green-500 dark:bg-gray-700 dark:border-green-500
                      placeholder-green-700
                     rounded-lg 
                     focus:ring-green-500 focus:border-green-500 

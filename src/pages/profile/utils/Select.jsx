@@ -1,5 +1,5 @@
-import React from 'react'
 import NaijaStates from "naija-state-local-government";
+import React from 'react';
 
 const Select = (props) => {
     const handleSelectOptions = (event) =>{
@@ -27,7 +27,7 @@ const Select = (props) => {
         // </select>
 
         <ul    className="w-full h-[400px] overflow-scroll overflow-x-hidden left-0 bottom-0 absolute block rounded-md border border-[#e0e0e0] bg-white text-base font-medium text-[#6B7280] outline-none focus:shadow-md
-         *:border *:border-custom-grey *:bg-white  dark:text-sky-300 dark:*:border-sky-500/15 dark:*:bg-sky-500/10">
+         *:border *:border-custom-grey *:bg-white">
         {props.value =="state" ? NaijaStates.states().map((state, index) => (
             <li className="w-full p-4 text-base" key={index} value={state} onClick={handleSelectOptions}>
                 {state}

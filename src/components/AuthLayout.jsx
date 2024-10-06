@@ -1,15 +1,21 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const AuthLayout = () => {
-    const { pathname } = useLocation();
-    const { auth } = useAuth() || JSON.parse(sessionStorage.getItem('auth'));
+  const { pathname } = useLocation();
+  const { isUserAuthenticated } = useAuth();
 
-    return auth?.user ? (
-        <Outlet />
-    ) : (
-        <Navigate to="/login" state={{ requestedUrl: pathname, message: 'Please login to continue!' }} replace={true} />
+  if (!isUserAuthenticated) {
+    return (
+      <Navigate
+        to="/login"
+        state={{ requestedUrl: pathname, message: 'Please login to continue!' }}
+        replace={true}
+      />
     );
+  }
+
+  return <Outlet />;
 };
 
 export default AuthLayout;

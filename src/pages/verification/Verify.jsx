@@ -93,83 +93,44 @@ const Verify = () => {
 
 
     return (
-        <div className="p-4 md:px-10 xl:p-20 h-full md:py-16 ">
+        <div className="p-4 min-h-[30rem]  md:px-10 xl:px-20 py-8 h-full ">
+            <h1 className=" text-3xl md:text-[40px] mb-4 text-custom-green text-center font-bold   ">Verify License</h1>
 
 
-            <div >
+            <div className="w-full mt-[53px]">
 
-                <div className="grid gap-10 items-center justify-center lg:flex">
-                    <div className="w-full">
-                        <h1 className=" text-3xl md:text-5xl text-custom-green font-bold mb-8 md:mb-16">Verify License</h1>
-
-                        <p className="text-justify">Securely verify your identity or someone else's with our driver's license verification service. This quick and easy process uses secure technology to protect your information. Get started today and streamline your verification needs.</p>
-                        <p>Sample ID: IDL1234567890 </p>
-
-                        <form>
-
-                            <label className=" w-full mt-6 flex shadow-[2px_5px_10px_rgba(0,0,0,0.1)] border border-gray-50  rounded-full">
-                                <input onChange={(e) => { setValue(e.target.value) }} ref={IDinput} placeholder="Enter License ID" className='bg-transparent py-4 pl-6 pr-2 text-black w-full rounded-xl md:rounded-none  border-customr-grey outline-0' />
-                                <button onClick={VerifyLicense} className="bg-custom-green px-8 text-white    rounded-full">Submit</button>
-
-                            </label>
-                            <span className="text-red-500 px-4 h-4 text-sm block mt-1">{errMsg}</span>
+                <p className="text-center text-lg max-w-[790px] mx-auto ">Securely verify your identity or someone else's with our driver's license verification service. This quick and easy process uses secure technology to protect your information. Get started today and streamline your verification needs. <br /><br />
+                    <span className="font-bold">Sample ID: NTH66786AA56</span>
+                </p>
 
 
+                <form className="max-w-[30rem] mx-auto">
 
-                        </form>
+                    <label className=" w-full mt-6 flex shadow-[2px_5px_10px_rgba(0,0,0,0.1)] border border-gray-50  rounded-full">
+                        <input onChange={(e) => { setValue(e.target.value) }} ref={IDinput} placeholder="Enter License ID" className='bg-transparent py-4 pl-6 pr-2 text-black w-full rounded-xl md:rounded-none  border-customr-grey outline-0' />
+                        <button onClick={VerifyLicense} className="bg-custom-green px-8 text-white    rounded-full">Submit</button>
 
+                    </label>
+                    <span className="text-red-500 px-4 h-4 text-sm block mt-1">{errMsg}</span>
 
-
-                    </div>
-
-                    <div className="w-full md:grid place-content-center">
-                        <img className=" p-4 h-[25rem] w-[25rem] block object-contain aspect-square shadow-[5px_2px_10px_rgba(0,0,0,0.1)]  rounded-full " src={verifiedLicense} alt="" />
-                    </div>
-
-
-                </div>
-
-
-                <div className="w-full mt-10 p-3 md:p-8">
-                    <h2 className="text-3xl text-custom-green font-bold mb-2">How it Works</h2>
-                    <p >Get Started with your verification requset following the simple guidelines below:</p>
-
-                    <div className="grid  md:grid-cols-2 gap-8 mt-14 ">
-                        <StepBox
-                            head={<>Get Started</>}
-                            message={"Click on input field above to begin your verification process"}
-                            count={"1"}
-                        />
-                        <StepBox
-                            head={<>Fill Verification  Form</>}
-                            message={"Kindly input your verification ID correctly for accurate verification and click the submit button to begin verification"}
-                            count={"2"}
-                        />
-
-                        <StepBox
-                            head={<>Secure Verifcation</>}
-                            message={"Our system securely check those details against official records to confirm your license is valid in real-time"}
-                            count={"3"}
-                        />
-                        <StepBox
-                            head={"Instant Results"}
-                            message={"You should recieve a clear and concise response within seconds stating the validity of your license"}
-                            count={"4"}
-                        />
-
-                    </div>
-                </div>
-                {
-                    Popup && Message
-                }
+                </form>
 
 
 
             </div>
 
 
+            {
+                Popup && Message
+            }
 
-        </div>
+
+
+
+
+
+
+        </div >
     )
 }
 

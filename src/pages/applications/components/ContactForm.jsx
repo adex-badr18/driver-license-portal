@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import NaijaStates from "naija-state-local-government";
 import { hasEmptyValue } from "../utils";
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const ContactForm = ({
     formData,
@@ -11,23 +13,31 @@ const ContactForm = ({
     setIsSubmitted,
 }) => {
     const [errorMessage, setErrorMessage] = useState("");
-    const [state, setState] = useState("");
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isEmailInputFocus, setIsEmailInputFocus] = useState(false);
     const isInvalid = hasEmptyValue(formData);
+    const { email } = formData;
+
+    useEffect(() => {
+        const emailTest = EMAIL_REGEX.test(email);
+        setIsEmailValid(emailTest);
+    }, [email]);
+
+    const handleEmailInputFocus = () => setIsEmailInputFocus(true);
+
+    console.log(formData)
 
     const submit = (e) => {
         e.preventDefault();
 
-        window.scrollTo(0, 200);
-
         setErrorMessage("");
 
-        if (hasEmptyValue(formData)) {
+        if (isInvalid) {
             setErrorMessage("All fields are required.");
             return;
         }
 
         setIsSubmitted(true);
-        window.scrollTo(0, 200);
         setStep(step + 1);
     };
 
@@ -64,16 +74,22 @@ const ContactForm = ({
                                 onChange={(e) =>
                                     handleChange(e, setContactForm)
                                 }
+                                onFocus={handleEmailInputFocus}
                                 placeholder="Email"
                                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 required
                             />
+                            {isEmailInputFocus && !isEmailValid && (
+                                <small className="text-sm text-red-600 font-medium">
+                                    Invalid email address!
+                                </small>
+                            )}
                         </div>
 
                         {/* Phone Number */}
                         <div className="">
                             <label
-                                htmlFor="phone"
+                                htmlFor="phone_number"
                                 className="mb-[2px] block text-base font-medium text-neutral-700"
                             >
                                 Phone Number{" "}
@@ -81,9 +97,9 @@ const ContactForm = ({
                             </label>
                             <input
                                 type="text"
-                                name="phone"
-                                id="phone"
-                                value={formData.phone}
+                                name="phone_number"
+                                id="phone_number"
+                                value={formData.phone_number}
                                 onChange={(e) =>
                                     handleChange(e, setContactForm)
                                 }
@@ -98,15 +114,16 @@ const ContactForm = ({
                         {/* Street Address */}
                         <div className="">
                             <label
-                                htmlFor="streetAddress"
+                                htmlFor="street_address"
                                 className="mb-[2px] block text-base font-medium text-neutral-700"
                             >
-                                Street Address
+                                Street Address{" "}
+                                <small className="text-red-800">*</small>
                             </label>
                             <textarea
-                                name="streetAddress"
-                                id="streetAddress"
-                                value={formData.streetAddress}
+                                name="street_address"
+                                id="street_address"
+                                value={formData.street_address}
                                 onChange={(e) =>
                                     handleChange(e, setContactForm)
                                 }
@@ -120,16 +137,16 @@ const ContactForm = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                         <div className="">
                             <label
-                                htmlFor="state"
+                                htmlFor="state_of_residence"
                                 className="mb-[2px] block text-base font-medium text-neutral-700"
                             >
                                 State of Residence{" "}
                                 <small className="text-red-800">*</small>
                             </label>
                             <select
-                                name="state"
-                                id="state"
-                                value={formData.state}
+                                name="state_of_residence"
+                                id="state_of_residence"
+                                value={formData.state_of_residence}
                                 onChange={(e) => {
                                     handleChange(e, setContactForm);
                                     // setState()
@@ -147,24 +164,24 @@ const ContactForm = ({
 
                         <div className="">
                             <label
-                                htmlFor="lga"
+                                htmlFor="local_govt_area"
                                 className="mb-[2px] block text-base font-medium text-neutral-700"
                             >
                                 Local Govt. Area{" "}
                                 <small className="text-red-800">*</small>
                             </label>
                             <select
-                                name="lga"
-                                id="lga"
-                                value={formData.lga}
+                                name="local_govt_area"
+                                id="local_govt_area"
+                                value={formData.local_govt_area}
                                 onChange={(e) =>
                                     handleChange(e, setContactForm)
                                 }
                                 className="w-full rounded-md border border-[#e0e0e0] bg-white py-[10px] px-4 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
                             >
                                 <option value="">--Select LGA--</option>
-                                {formData.state &&
-                                    NaijaStates.lgas(formData.state).lgas.map(
+                                {formData.state_of_residence &&
+                                    NaijaStates.lgas(formData.state_of_residence).lgas.map(
                                         (lga, index) => (
                                             <option key={index} value={lga}>
                                                 {lga}
@@ -180,14 +197,14 @@ const ContactForm = ({
                     <button
                         className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
                         onClick={goBack}
-                        >
+                    >
                         Previous
                     </button>
 
                     <button
                         className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                         onClick={submit}
-                        disabled={isInvalid}
+                        disabled={isInvalid || !isEmailValid}
                     >
                         Continue
                     </button>

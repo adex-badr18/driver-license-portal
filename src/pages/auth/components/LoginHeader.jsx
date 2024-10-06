@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import authImage from "../../../assets/images/business.png";
 
 export default function LoginHeader({
     heading,
@@ -9,17 +8,12 @@ export default function LoginHeader({
     routeMessage,
 }) {
     return (
-        <div className="">
-            <div className="flex justify-center">
-                <img
-                    alt=""
-                    className="h-14 w-14"
-                    src={authImage}
-                />
-            </div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div className="text-center">
+
+            <h2 className="mb-2 text-2xl font-poppins font-semibold text-gray-900">
                 {heading}
             </h2>
+            <p className="text-[#838894] font-poppins">{paragraph}</p>
 
             {routeMessage && <h4 className="font-medium text-lg text-red-600 text-center mt-6">{routeMessage}</h4>}
         </div>

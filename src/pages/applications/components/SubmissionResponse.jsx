@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
+import { PaymentSuccessIcon } from "../icons";
 
 const SubmissionResponse = ({ responseData }) => {
     const navigate = useNavigate();
@@ -12,26 +13,21 @@ const SubmissionResponse = ({ responseData }) => {
 
         setTimeout(() => {
             setIsGenerating(false);
-            navigate("/appointment", { state: { responseData } });
+            navigate("/get-appointment-slip", { state: { responseData } });
         }, 3000);
     };
 
     return (
-        <div className="flex flex-col gap-5 p-4">
-            <div className="flex justify-center items-center self-center p-1 bg-neutral-100 rounded-full shadow-md h-20 w-20">
-                <div className="flex justify-center items-center p-1 bg-neutral-200 rounded-full h-16 w-16">
-                    <IoCheckmarkDoneCircle className="text-5xl text-green-700" />
-                </div>
-            </div>
+        <div className="flex flex-col gap-5 justify-center p-4">
+            <PaymentSuccessIcon className="w-full max-w-44 mx-auto" />
 
             <div className="flex flex-col items-center">
-                <h3 className="text-lg font-bold mb-5">
+                <h3 className="text-lg text-center font-bold mb-5">
                     Your application has been successfully submitted.
                 </h3>
-                <p className="">
-                    Please generate your appointment slip to get the details of
+                <p className="text-center">
+                    Please generate your appointment slip to get the details of your capturing center. Thank you.
                 </p>
-                <p className="">your capturing center. Thank you.</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-1">

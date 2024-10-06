@@ -1,183 +1,114 @@
-import { useState } from "react";
-import { useLocation, useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { redirect, useLoaderData } from "react-router-dom";
+import { fetchProfile, updateProfile } from "./api";
 import BasicDetails from "./components/BasicDetails";
 import InstantDriverDetails from "./components/InstantDriverDetails";
 import LoginDetails from "./components/LoginDetails";
 import ProfilePicture from "./components/ProfilePicture";
-import { requireAuth } from "../../utils/auth";
-import axios from "axios";
 
-import { getLicense, getProfile } from "../../api";
-import useAuth from "../../hooks/useAuth";
 
-export const loader = async ({ request }) => {
-    await requireAuth(request);
 
-    const auth = JSON.parse(sessionStorage.getItem("auth"));
-    // const userId = auth.user.id;
+export const profileLoader = ({request}) => {
+  const auth = JSON.parse(sessionStorage.getItem("auth"));
+  console.log({auth})
+  const pathname = new URL(request.url).pathname;
 
-    const profile = await getProfile();
-    // const license = getLicense(userId);
+  if(auth){
+    let response= fetchProfile(auth.access,pathname)
 
-    // return [profile, license];
-    return profile;
-
-    // const user = JSON.parse(sessionStorage.getItem("auth"));
-    // const { access } = user;
-
-    // try {
-    //     const res = await axios.get(
-    //         "https://saviorte.pythonanywhere.com/api/profile/",
-    //         {
-    //             headers: {
-    //                 Authorization: `Bearer ${access}`,
-    //             },
-    //         }
-    //     );
-
-    //     if (res.status === 200) {
-    //       console.log(res.data);
-    //       return res.data;
-    //     }
-    // } catch (error) {
-    //   console.log(error.response.data);
-    //   return error;
-    // }
-};
+    console.log({response})
+    return response
+  } 
+  else{
+      throw redirect(`/login?message=Please-login-to-continue&redirectTo= ${pathname}`);
+  }
+}
 
 const Profile = () => {
-    let { state } = useLocation();
-    const {auth} = useAuth();
-    const {user} = auth;
-    const profile = useLoaderData();
-    // const [profile, license] = useLoaderData();
-    const [profileDetails, setProfile] = useState({
-        username: user.username || "",
-        password: user.password || "",
-        firstname: profile.first_name || "",
-        surname: profile.last_name || "",
-        middlename: profile.middle_name || "",
-        dob: profile.date_of_birth || "",
-        phone: profile.phone_number || "",
-        email: user.email || "",
-        StateofAddress: profile.state_of_residence || "",
-        lga: profile.local_govt_area || "",
-        address: profile.street_address || "",
-        gender: profile.gender || "",
-        licenseId: "--",
-        certificateNumber: "--",
-        nin: profile.nin || "",
-        joined: "21-12-3034",
-        lastRenewal: "--",
-        nextRenewal: "--",
-        image: profile.passport_photo || "",
-    });
+  const user = JSON.parse(sessionStorage.getItem("auth"));
+  let  state  = useLoaderData();
 
-    // console.log(profile);
+  console.log({state})
+  const [profileDetails, setProfile] = useState({...state})
+  const [basicDetails, setBasicDetails] = useState({})
+  const [passport, setPassport] = useState(state.passport_photo)
+  useEffect(()=>{
+    let profileClone = new Object()
+    for(let item in profileDetails){
+      if(item !== "passport_photo"){
+      profileClone[item] = state[item]
+    }}
+    console.log(profileClone)
+    setBasicDetails(profileClone)
+  },[profileDetails])
 
-    // console.log({ profileDetails });
+  console.log({profileDetails})
 
-    const editFirstName = (args) => {
-        setProfile({
-            ...profileDetails,
-            firstname: args,
-        });
-    };
-    const editMiddleName = (args) => {
-        setProfile({
-            ...profileDetails,
-            middlename: args,
-        });
-    };
-    const editSurname = (args) => {
-        setProfile({
-            ...profileDetails,
-            surname: args,
-        });
-    };
-    const editEmail = (args) => {
-        setProfile({
-            ...profileDetails,
-            email: args,
-        });
-    };
-    const editGender = (args) => {
-        setProfile({
-            ...profileDetails,
-            gender: args,
-        });
-    };
-    const editAddress = (args) => {
-        setProfile({
-            ...profileDetails,
-            address: args,
-        });
-    };
-    const editPhone = (args) => {
-        setProfile({
-            ...profileDetails,
-            phone: args,
-        });
-    };
-    const editDob = (args) => {
-        setProfile({
-            ...profileDetails,
-            dob: args,
-        });
-    };
-    const editState = (args) => {
-        console.log(args);
-        setProfile({
-            ...profileDetails,
-            StateofAddress: args,
-        });
-    };
-    const editLga = (args) => {
-        setProfile({
-            ...profileDetails,
-            lga: args,
-        });
-    };
-    const editImage = (event) => {
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        console.log(event.target.files[0]);
-        reader.onloadend = () => {
-            setProfile({
-                ...profileDetails,
-                image: reader.result,
-                file: file,
-            });
-        };
-        reader.readAsDataURL(file);
-    };
+  if(passport){
+    console.log({passport})
+    const formData = new FormData()
+    formData.append("passport_photo",passport)
 
-    return (
-        <section className="w-screen py-7 md:py-12 xl:py-20 px-4 md:px-10 xl:px-16 bg-[#f2f2f2]">
-            <h3 className="text-[28px]/[36px] md:text-[44px]/[56px] font-bold">
-                Profile Details
-            </h3>
+    console.log(formData)
+  }
 
-            <div className="w-full">
-                <ProfilePicture state={profileDetails} editImage={editImage} />
-                <BasicDetails
-                    state={profileDetails}
-                    editAddress={editAddress}
-                    editDob={editDob}
-                    editEmail={editEmail}
-                    editFirstName={editFirstName}
-                    editGender={editGender}
-                    editMiddleName={editMiddleName}
-                    editPhone={editPhone}
-                    editSurname={editSurname}
-                    editLga={editLga}
-                    editState={editState}
-                />
-                <LoginDetails state={profileDetails} />
-                <InstantDriverDetails state={profileDetails} />
-            </div>
-        </section>
-    );
+  const editImage = async (event) => {
+          
+      let reader = new FileReader();
+      let file = event.target.files[0];
+      console.log(event.target.files[0])
+      
+              const formData = new FormData()
+              console.log(file)
+              
+              reader.onloadend =  async  () => {
+                
+                console.log(formData)
+                setPassport( reader.result)
+                if(reader.result){
+                  console.log("it is true")
+                }
+                formData.append("passport_photo",reader.result)
+                let response = await updateProfile(user.access,formData)
+                console.log({response})
+                
+              };
+              reader.readAsDataURL(file);
+              console.log(formData)
+  }
+ 
+const updateBasicDetails = (args) => {
+
+  setProfile({
+    ...profileDetails,
+    ...args
+  })
+    
+  
 };
 
-export default Profile;
+  return (
+    <section className='w-screen py-7 md:py-12 xl:py-20 px-4 md:px-10 xl:px-16 bg-white'>
+        <h3 className='text-[28px]/[36px] md:text-[44px]/[56px] font-bold text-custom-green'>Profile Details</h3>    
+
+        <div className="w-full">
+            <form>
+              <ProfilePicture  
+                state={profileDetails.passport_photo}
+                // editImage={editImage}
+                onImageChange={editImage}
+              />
+
+            </form>
+            <BasicDetails  
+              state={basicDetails}
+              updateBasicDetails={updateBasicDetails}
+            />
+            <LoginDetails  state={profileDetails}/>
+            <InstantDriverDetails state={profileDetails} />
+        </div>
+    </section>
+  );
+}
+
+export default Profile

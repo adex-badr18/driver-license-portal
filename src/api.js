@@ -3,7 +3,7 @@ import { getTomorrowsDate } from "./pages/appointment/utils";
 import axios from "axios";
 
 export const getAppointment = async (id) => {
-    const profile = await getProfile();
+    const profile = JSON.parse(sessionStorage.getItem("profile"));
     const appointmentData = {
         appointment_date: getTomorrowsDate(),
         appointment_time: "10:00 AM",
@@ -36,9 +36,14 @@ export const getProfile = async () => {
         //     `http://localhost:3000/profiles?userId=${userId}`
         // );
 
-        const res = await axios.get("https://saviorte.pythonanywhere.com/api/profile/", {
+        // const res = await axios.get("https://saviorte.pythonanywhere.com/api/profile/", {
+        //     headers: {
+        //         Authorization: `Bearer ${auth.access}`
+        //     }
+        // });
+        const res = await axios.get('https://dummyjson.com/auth/me', {
             headers: {
-                Authorization: `Bearer ${auth.access}`
+                Authorization: `Bearer ${auth.user.token}`
             }
         });
 

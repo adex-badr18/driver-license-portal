@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { toast } from 'react-toastify';
-import { signupFields } from "../constants/FormFields";
-import { Link } from "react-router-dom";
+import { signupFields, passwordFields } from "../constants/FormFields";
+import { Link, Navigate } from "react-router-dom";
 import FormAction from "./FormAction";
 import Modal from "../../../components/Modal";
 import SignUpResponse from "./SignUpResponse";
 import Input from "./Input";
 import { createAccount } from "../api";
+import useAuth from "../../../hooks/useAuth";
 
 const fields = signupFields;
 let fieldsState = {};
@@ -18,6 +18,7 @@ const PWD_REGEX =
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 fields.forEach((field) => (fieldsState[field.id] = ""));
+passwordFields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup({ paragraph, linkUrl, linkName }) {
     const [signupState, setSignupState] = useState(fieldsState);
@@ -28,13 +29,17 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+    const [passVisible, setPassVisible] = useState(false)
     const navigate = useNavigate();
-    const { username, email, password, confirm_password } = signupState;
+    const { name, email_license_id, password, confirm_password } = signupState;
+    const { isUserAuthenticated } = useAuth();
+
+    console.log(signupState)
 
     useEffect(() => {
-        const emailTest = EMAIL_REGEX.test(email);
+        const emailTest = EMAIL_REGEX.test(email_license_id);
         setIsEmailValid(emailTest);
-    }, [email]);
+    }, [email_license_id]);
 
     useEffect(() => {
         const passwordTest = PWD_REGEX.test(password);
@@ -51,8 +56,8 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
 
     const clearForm = () => {
         setSignupState({
-            email: "",
-            username: "",
+            email_license_id: "",
+            name: "",
             password: "",
             confirm_password: "",
         });
@@ -85,10 +90,10 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
         }
 
         const data = {
-            username,
-            email,
-            password,
-            confirm_password,
+            username: signupState.name,
+            email: signupState.email_license_id,
+            password: signupState.password,
+            confirm_password: signupState.confirm_password,
         };
 
         const signupResponse = await createAccount(data);
@@ -110,14 +115,16 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
         setError("Something went wrong! Please try again.");
     };
 
-    return (
-        <form className="space-y-6 p-6" onSubmit={handleSubmit}>
+    return isUserAuthenticated ? (
+        <Navigate to="/dashboard" replace={true} />
+    ) : (
+        <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
                 <p className="bg-red-100 text-red-700 py-2 px-4 rounded-md">
                     {error}
                 </p>
             )}
-            <div className="">
+            <div className="grid gap-4">
                 {fields.map((field) => (
                     <Input
                         key={field.id}
@@ -132,19 +139,44 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
                         placeholder={field.placeholder}
                         isPasswordValid={isPasswordValid}
                         isPasswordMatch={isPasswordMatch}
-                        isEmailValid={isEmailValid}
+                        isEmailValid={isEmailValid}                        
                     />
                 ))}
+                <div className="flex flex-col md:flex-row gap-6 justify-between">
+                    {passwordFields.map((field) => (
+                        <Input
+                            key={field.id}
+                            handleChange={handleChange}
+                            value={signupState[field.id]}
+                            labelText={field.labelText}
+                            labelFor={field.labelFor}
+                            id={field.id}
+                            name={field.name}
+                            type={passVisible ? "text" : field.type}
+                            isRequired={field.isRequired}
+                            placeholder={field.placeholder}
+                            isPasswordValid={isPasswordValid}
+                            isPasswordMatch={isPasswordMatch}
+                            isEmailValid={isEmailValid}
+                            changePasswordType={() => { setPassVisible(!passVisible) }}
+                        />
+                    ))}
+                </div>
                 <button
-                    className="bg-custom-green w-full hover:bg-green-800 px-4 py-2 text-white font-medium rounded-lg mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="bg-custom-green w-full hover:bg-green-800 p-4 text-white font-poppins font-medium rounded-lg mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
                     onSubmit={handleSubmit}
                     type="submit"
-                    disabled={!isPasswordValid || !isPasswordMatch || !username || !isEmailValid}
+                    disabled={
+                        !isPasswordValid ||
+                        !isPasswordMatch ||
+                        !name ||
+                        !isEmailValid
+                    }
                 >
                     {isSubmitting ? (
                         <div className="flex justify-center gap-4">
                             <div className="w-6 h-6 rounded-full animate-spin border-y-4 border-solid border-white border-t-transparent shadow-md"></div>
-                            <span>Creating account...</span>
+                            <span className="font-poppins">Creating account...</span>
                         </div>
                     ) : (
                         "Create Account"
@@ -155,7 +187,7 @@ export default function Signup({ paragraph, linkUrl, linkName }) {
                 {paragraph}{" "}
                 <Link
                     to={linkUrl}
-                    className="font-medium text-custom-green hover:text-green-800"
+                    className="font-poppins font-medium text-custom-green hover:text-green-800"
                 >
                     {linkName}
                 </Link>

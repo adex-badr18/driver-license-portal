@@ -1,6 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { BiSolidEdit } from "react-icons/bi";
+import { submitApplication } from "../api";
+import useAuth from "../../../hooks/useAuth";
 
 const Review = ({
     biodata,
@@ -13,116 +14,98 @@ const Review = ({
     applicationType,
 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { auth } = useAuth();
+    const { access } = auth;
+
+    const getFormData = (data) => {
+        let formData = new FormData();
+
+        for (let prop in data) {
+            formData.append(prop, data[prop]);
+        }
+
+        return formData;
+    };
 
     const submit = async (e) => {
         e.preventDefault();
-
-        // console.log();
-        // console.log(biodata.file);
-
-        // const data = {
-        //     first_name: biodata.first_name,
-        //     last_name: biodata.last_name,
-        //     middle_name: biodata.middle_name,
-        //     gender: biodata.gender,
-        //     date_of_birth: biodata.date_of_birth,
-        //     mothers_maiden_name: biodata.mothers_maiden_name,
-        //     nin: biodata.nin,
-        //     email: biodata.email,
-        //     phone_number: biodata.phone_number,
-        //     street_address: biodata.street_address,
-        //     state_of_residence: 1,
-        //     local_govt_area: biodata.local_govt_area,
-        //     application_type: "new",
-        //     vehicle_type: "Light Vehicle",
-        //     passport_photo: biodata.passport_photo,
-        //     driving_school_certificate_number: "",
-        // };
-
-        // let formData = new FormData();
-
-        // formData.append("license_id", "NTH66786AA56");
-        // formData.append("application_type", "renewal");
-        // formData.append("middle_name", biodata.middle_name);
-        // formData.append("gender", biodata.gender);
-        // formData.append("date_of_birth", biodata.date_of_birth);
-        // formData.append("mothers_maiden_name", biodata.mothers_maiden_name);
-        // formData.append("nin", biodata.nin);
-        // formData.append("email", contactData.email);
-        // formData.append("phone_number", contactData.phone_number);
-        // formData.append("street_address", contactData.street_address);
-        // formData.append("state_of_residence", 1);
-        // formData.append("local_govt_area", contactData.local_govt_area);
-        // formData.append("application_type", "new");
-        // formData.append("vehicle_type", "Light Vehicle");
-        // formData.append("passport_photo", biodata.passport_photo);
-        // formData.append(
-        //     "driving_school_certificate_number",
-        //     biodata.driving_school_certificate_number
-        // );
-
-        // formData = Object.entries(data).map((key, val) => {
-        //     return fo
-        // })
-
-        // const data = {
-        //     id: 1,
-        //     name: "Ope"
-        // }
-
-        // console.log(Object.entries(data));
-
-        // for (const items in data) {
-        //     console.log(items + " - " + data[items]);
-        // }
-
-        // for (let i=0; i > Object.entries(data).length; i++) {
-        //     formData.append(data, val);
-        // }
-
-        // console.log(formData);
-
-        // const auth = JSON.parse(sessionStorage.getItem("auth"));
-        // const { access } = auth;
-        // console.log(access);
-
-        // const token =
-        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIxNjUyNDY5LCJpYXQiOjE3MjE2NTA2NjksImp0aSI6IjBkN2I4NmNhMzVjYjQwNzhiZjNiZWI0MGUyODY0MmIyIiwidXNlcl9pZCI6MTJ9.-fG5dm69cfpzJeG2R9D8fn7BheDVYU4Kfc-zUuRyzP4";
-
-        // try {
-        //     const res = await axios.post(
-        //         "https://saviorte.pythonanywhere.com/api/applications/renewal/",
-        //         {
-        //             licence_id: "NTH66786AA56",
-        //             application_type: "renewal"
-        //         },
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${access}`,
-        //             },
-        //         }
-        //     );
-
-        //     if (res.status === 200) {
-        //         console.log(res.data);
-        //         return;
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        //     return;
-        // }
-
-        // console.log(biodata);
-        // console.log(contactData);
+        let formData;
 
         setIsSubmitting(true);
 
+        if (applicationType === "new") {
+            const newLicenseData = {
+                first_name: biodata.first_name,
+                last_name: biodata.last_name,
+                middle_name: biodata.middle_name,
+                gender: biodata.gender,
+                date_of_birth: biodata.date_of_birth,
+                mothers_maiden_name: biodata.mothers_maiden_name,
+                nin: biodata.nin,
+                email: contactData.email,
+                phone_number: contactData.phone_number,
+                street_address: contactData.street_address,
+                state_of_residence: contactData.state_of_residence,
+                local_govt_area: contactData.local_govt_area,
+                application_type: applicationType,
+                vehicle_type: biodata.vehicle_type,
+                driving_school_certificate_number:
+                    biodata.driving_school_certificate_number,
+                passport_photo: biodata.passport_photo,
+            };
+
+            formData = getFormData(newLicenseData);
+        }
+
+        if (applicationType === "renewal") {
+            const renewalData = {
+                license_id: renewalReissueData.license_id,
+                application_type: applicationType,
+            };
+
+            formData = getFormData(renewalData);
+        }
+
+        if (applicationType === "reissue") {
+            const reissueData = {
+                license_id: renewalReissueData.license_id,
+                affidavit_police_report:
+                    renewalReissueData.affidavit_police_report,
+                application_type: applicationType,
+            };
+
+            formData = getFormData(reissueData);
+        }
+
+        const response = await submitApplication(
+            formData,
+            applicationType,
+            access
+        );
+
+        if (response.error) {
+            console.log(response);
+            setIsSubmitting(false);
+            return;
+        }
+
         setTimeout(() => {
+            setIsSubmitting(true);
+
             setIsReviewed(true);
             openModal();
             setIsSubmitting(false);
         }, 3000);
-        
+    };
+
+    const apply = (e) => {
+        e.preventDefault();
+
+        setTimeout(() => {
+            openModal();
+            setIsSubmitting(false);
+            setIsSubmitting(true);
+        }, 3000);
     };
 
     const goBack = (e) => {
@@ -132,7 +115,7 @@ const Review = ({
     };
 
     return (
-        <div className="flex flex-col px-10 py-4">
+        <div className="flex flex-col md:px-10 py-4 w-full">
             {applicationType === "new" ? (
                 <div className="flex flex-col md:flex-row gap-6 md:gap-10">
                     {/* Biodata Review */}
@@ -142,18 +125,20 @@ const Review = ({
                                 Biodata
                             </h4>
                             <button
-                                className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md"
+                                className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md self-center"
                                 onClick={() => setStep(1)}
                             >
                                 <BiSolidEdit />
                             </button>
                         </div>
                         <div className="flex flex-col gap-6 p-4">
-                            <img
-                                src={biodata.passport_photo}
-                                className="w-20 h-auto object-cover rounded-full"
-                                alt="Passport Photo"
-                            />
+                            <div className="self-center">
+                                <img
+                                    src={biodata.passport_photo}
+                                    className="rounded-full w-28 h-auto"
+                                    alt="Passport Photo"
+                                />
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                                 <div className="">
                                     <label
@@ -290,7 +275,7 @@ const Review = ({
                                 Contact
                             </h4>
                             <button
-                                className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md"
+                                className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md self-center"
                                 onClick={() => setStep(2)}
                             >
                                 <BiSolidEdit />
@@ -316,16 +301,16 @@ const Review = ({
 
                                 <div className="">
                                     <label
-                                        htmlFor="phone"
+                                        htmlFor="phone_number"
                                         className="mb-[2px] block text-base font-medium text-neutral-700"
                                     >
                                         Phone Number
                                     </label>
                                     <p
                                         className="font-bold text-grey"
-                                        id="phone"
+                                        id="phone_number"
                                     >
-                                        {contactData.phone}
+                                        {contactData.phone_number}
                                     </p>
                                 </div>
                             </div>
@@ -333,28 +318,63 @@ const Review = ({
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                                 <div className="">
                                     <label
-                                        htmlFor="state"
+                                        htmlFor="state_of_residence"
                                         className="mb-[2px] block text-base font-medium text-neutral-700"
                                     >
                                         State
                                     </label>
                                     <p
                                         className="font-bold text-grey"
-                                        id="state"
+                                        id="state_of_residence"
                                     >
-                                        {contactData.state}
+                                        {contactData.state_of_residence}
                                     </p>
                                 </div>
 
                                 <div className="">
                                     <label
-                                        htmlFor="lga"
+                                        htmlFor="local_govt_area"
                                         className="mb-[2px] block text-base font-medium text-neutral-700"
                                     >
                                         Local Govt. Area
                                     </label>
-                                    <p className="font-bold text-grey" id="lga">
-                                        {contactData.lga}
+                                    <p
+                                        className="font-bold text-grey"
+                                        id="local_govt_area"
+                                    >
+                                        {contactData.local_govt_area}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+                                <div className="">
+                                    <label
+                                        htmlFor="vehicle_type"
+                                        className="mb-[2px] block text-base font-medium text-neutral-700"
+                                    >
+                                        Vehicle Type
+                                    </label>
+                                    <p
+                                        className="font-bold text-grey capitalize"
+                                        id="vehicle_type"
+                                    >
+                                        {biodata.vehicle_type}
+                                    </p>
+                                </div>
+
+                                <div className="">
+                                    <label
+                                        htmlFor="application_type"
+                                        className="mb-[2px] block text-base font-medium text-neutral-700"
+                                    >
+                                        Application Type
+                                    </label>
+                                    <p
+                                        className="font-bold text-grey capitalize"
+                                        id="application_type"
+                                    >
+                                        {applicationType}
                                     </p>
                                 </div>
                             </div>
@@ -362,16 +382,16 @@ const Review = ({
                             <div className="grid grid-cols-1 gap-4 md:gap-10">
                                 <div className="">
                                     <label
-                                        htmlFor="streetAddress"
+                                        htmlFor="street_address"
                                         className="mb-[2px] block text-base font-medium text-neutral-700"
                                     >
                                         Street Address
                                     </label>
                                     <p
-                                        className="font-bold text-grey"
-                                        id="streetAddress"
+                                        className="font-bold text-grey capitalize"
+                                        id="street_address"
                                     >
-                                        {contactData.streetAddress}
+                                        {contactData.street_address}
                                     </p>
                                 </div>
                             </div>
@@ -379,13 +399,13 @@ const Review = ({
                     </div>
                 </div>
             ) : (
-                <div className="flex flex-col w-full md:w-2/3 md:mx-auto shadow-md border border-neutral-200 rounded-md">
+                <div className="flex flex-col w-full md:w-1/2 md:mx-auto shadow-md border border-neutral-200 rounded-md">
                     <div className="flex justify-between bg-green-100 p-4">
                         <h4 className="text-xl font-bold text-custom-green">
                             Application Data
                         </h4>
                         <button
-                            className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md"
+                            className="bg-neutral-300 hover:bg-neutral-400 p-1 rounded-md self-center"
                             onClick={() => setStep(1)}
                         >
                             <BiSolidEdit />
@@ -393,18 +413,19 @@ const Review = ({
                     </div>
 
                     <div className="flex flex-col gap-6 p-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div className="grid grid-cols-1 gap-4 md:gap-6">
                             <div className="">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="nin"
                                     className="mb-[2px] block text-base font-medium text-neutral-700"
                                 >
-                                    Email
+                                    NIN
                                 </label>
-                                <p className="font-bold text-grey" id="email">
-                                    {renewalReissueData?.email}
+                                <p className="font-bold text-grey" id="nin">
+                                    {renewalReissueData?.nin}
                                 </p>
                             </div>
+
                             <div className="">
                                 <label
                                     htmlFor="license_id"
@@ -419,8 +440,22 @@ const Review = ({
                                     {renewalReissueData?.license_id}
                                 </p>
                             </div>
+                            <div className="">
+                                <label
+                                    htmlFor="application_type"
+                                    className="mb-[2px] block text-base font-medium text-neutral-700"
+                                >
+                                    Application Type
+                                </label>
+                                <p
+                                    className="font-bold text-grey capitalize"
+                                    id="application_type"
+                                >
+                                    {applicationType}
+                                </p>
+                            </div>
                         </div>
-                        {applicationType === "re-issue" && (
+                        {applicationType === "reissue" && (
                             <div className="w-full">
                                 <label
                                     htmlFor="license_id"
@@ -441,7 +476,7 @@ const Review = ({
                 </div>
             )}
 
-            <div className="flex justify-between mt-4 md:mt-8">
+            <div className="flex flex-col md:flex-row justify-between mt-4 md:mt-8">
                 <button
                     className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
                     onClick={goBack}
@@ -451,7 +486,7 @@ const Review = ({
 
                 <button
                     className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4"
-                    onClick={submit}
+                    onClick={apply}
                 >
                     {isSubmitting ? (
                         <div className="flex justify-center gap-4">

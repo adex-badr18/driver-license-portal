@@ -1,26 +1,26 @@
 export default function FormExtra() {
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex justify-between ">
       <div className="flex items-center">
-        <input
+        {/* <input
           id="remember-me"
           name="remember-me"
           type="checkbox"
           className="h-4 w-4 cursor-pointer text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-        />
-        <label
+        /> */}
+        {/* <label
           htmlFor="remember-me"
           className="ml-2 block text-sm text-gray-900"
         >
           Remember me
-        </label>
+        </label> */}
       </div>
 
       <div className="text-sm">
         <a
           href="#"
 
-          className="font-medium text-custom-green hover:text-green-700"
+          className="font-medium text-pretty text-[#15803D]"
         >
           Forgot your password?
         </a>

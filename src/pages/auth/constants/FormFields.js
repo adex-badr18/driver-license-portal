@@ -1,6 +1,6 @@
 const loginFields = [
   {
-    labelText: 'Email address',
+    labelText: 'E-mail or License ID',
     labelFor: 'email-address',
     id: 'email',
     name: 'email',
@@ -23,25 +23,28 @@ const loginFields = [
 
 const signupFields = [
   {
-    labelText: 'Username',
-    labelFor: 'username',
-    id: 'username',
-    name: 'username',
+    labelText: 'Your name',
+    labelFor: 'name',
+    id: 'name',
+    name: 'name',
     type: 'text',
-    autoComplete: 'username',
+    autoComplete: 'name',
     isRequired: true,
-    placeholder: 'Username',
+    placeholder: 'Enter your name',
   },
   {
-    labelText: 'Email address',
-    labelFor: 'email',
-    id: 'email',
-    name: 'email',
-    type: 'email',
-    autoComplete: 'email',
+    labelText: 'Email or License ID',
+    labelFor: 'email_license_id',
+    id: 'email_license_id',
+    name: 'email_license_id',
+    type: 'text',
+    autoComplete: 'email_license_id',
     isRequired: true,
-    placeholder: 'Email address',
+    placeholder: 'Enter your email or license ID',
   },
+];
+
+const passwordFields = [
   {
     labelText: 'Password',
     labelFor: 'password',
@@ -64,4 +67,5 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+export { loginFields, signupFields, passwordFields };
+

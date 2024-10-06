@@ -42,7 +42,7 @@ export const vehicleTypes = [
     {
         id: 9,
         class: 'I',
-        description: "Special Vehicles"
+        description: "Special Vehicles for Physically Handicapped Persons"
     },
 ];
 

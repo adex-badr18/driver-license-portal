@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { hasEmptyValue } from "../utils";
+import { hasEmptyValue, biodataFormValid } from "../utils";
 import { vehicleTypes } from "../data";
 
 const BiodataForm = ({
@@ -12,9 +12,7 @@ const BiodataForm = ({
     applicationType,
 }) => {
     const [errorMessage, setErrorMessage] = useState("");
-    const isInvalid = hasEmptyValue(formData);
-
-    console.log(formData);
+    const isValid = biodataFormValid(formData);
 
     const onImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -34,21 +32,18 @@ const BiodataForm = ({
         e.preventDefault();
 
         setErrorMessage("");
-        
-        // console.log(formData);
 
-        if (hasEmptyValue(formData)) {
-            setErrorMessage("All fields are required.");
+        if (!biodataFormValid(formData)) {
+            setErrorMessage("Fields marked with * are required.");
             return;
         }
-        
+
         setIsSubmitted(true);
-        window.scrollTo(0, 200);
         setStep(step + 1);
     };
 
     return (
-        <div className="pb-4">
+        <div className="py-4">
             {errorMessage && (
                 <p className="bg-red-200 text-red-900 text-sm px-3 py-2 rounded-md mb-4">
                     {errorMessage}
@@ -256,28 +251,28 @@ const BiodataForm = ({
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                             <div className="">
                                 <label
-                                    htmlFor="vehicle_class"
+                                    htmlFor="vehicle_type"
                                     className="mb-[2px] block text-base font-medium text-neutral-700"
                                 >
-                                    Vehicle Class{" "}
+                                    Vehicle Type{" "}
                                     <small className="text-red-800">*</small>
                                 </label>
                                 <select
-                                    name="vehicle_class"
-                                    id="vehicle_class"
-                                    value={formData.vehicle_class}
+                                    name="vehicle_type"
+                                    id="vehicle_type"
+                                    value={formData.vehicle_type}
                                     onChange={(e) =>
                                         handleChange(e, setBiodataForm)
                                     }
                                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
                                 >
                                     <option value="">
-                                        --Select Vehicle Class--
+                                        --Select Vehicle Type--
                                     </option>
                                     {vehicleTypes.map((type) => (
                                         <option
                                             key={type.id}
-                                            value={type.class}
+                                            value={type.description}
                                         >{`${type.class} - ${type.description}`}</option>
                                     ))}
                                 </select>
@@ -314,7 +309,7 @@ const BiodataForm = ({
                     <button
                         className="bg-custom-green hover:bg-green-600 px-4 py-2 text-white rounded-lg mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
                         onClick={submit}
-                        disabled={isInvalid}
+                        disabled={!isValid}
                     >
                         Continue
                     </button>
